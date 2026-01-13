@@ -6,10 +6,6 @@ const designs = [
   { id: 5, name: "Retro Terminal", description: "Green on black terminal style" },
   { id: 9, name: "Card Grid", description: "Card-based modular layout" },
   { id: 10, name: "Sidebar Heavy", description: "Prominent sidebar navigation" },
-  { id: 11, name: "Minimalist White", description: "Clean white space design" },
-  { id: 12, name: "Military Tactical", description: "Dark tactical operations feel" },
-  { id: 13, name: "Maritime Blue", description: "Ocean-inspired for marine tracking" },
-  { id: 14, name: "Racing Theme", description: "Speed-focused dynamic design" },
   { id: 18, name: "Data Dense", description: "Information-heavy analytics" },
   { id: 19, name: "Split View", description: "Dual panel interface" },
 ];
