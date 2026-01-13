@@ -150,12 +150,12 @@ const Design5 = () => {
                       </div>
                       {isSelected && telemetry && <div className="mt-3 pt-3 border-t border-blue-100 grid grid-cols-2 gap-2 text-xs">
                           <div className="flex items-center gap-1 text-slate-600">
-                            <Gauge className="w-3 h-3" />
-                            <span>{telemetry.speed || 0} km/h</span>
+                            <Wifi className="w-3 h-3" />
+                            <span>Online</span>
                           </div>
                           <div className="flex items-center gap-1 text-slate-600">
-                            <Battery className="w-3 h-3" />
-                            <span>{telemetry.battery_level || 0}%</span>
+                            <Settings className="w-3 h-3" />
+                            <span>AJAX Configured</span>
                           </div>
                         </div>}
                     </div>;
