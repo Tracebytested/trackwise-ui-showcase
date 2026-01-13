@@ -1,7 +1,34 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Navigation, Car, Ship, Caravan, MoreVertical } from "lucide-react";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, MoreVertical, LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useDevices } from '@/hooks/useDevices';
+import { useDeviceTelemetry } from '@/hooks/useDeviceTelemetry';
+import { useAlerts } from '@/hooks/useAlerts';
+import { useSubscription } from '@/hooks/useSubscription';
+import { DeviceStatusBadge } from '@/components/shared/DeviceStatusBadge';
+import { SubscriptionBanner } from '@/components/shared/SubscriptionBanner';
+import { AddDeviceDialog } from '@/components/shared/AddDeviceDialog';
+
+const getDeviceIcon = (type: string) => {
+  switch (type) {
+    case 'yacht': return Ship;
+    case 'caravan': return Caravan;
+    default: return Car;
+  }
+};
 
 const Design19 = () => {
+  const { signOut } = useAuth();
+  const { devices, loading, totalCount, activeCount } = useDevices();
+  const { unreadCount } = useAlerts();
+  const { canAccessLiveTracking, isPro } = useSubscription();
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [showAddDevice, setShowAddDevice] = useState(false);
+
+  const selectedDevice = devices.find(d => d.id === selectedDeviceId) || devices[0];
+  const { telemetry } = useDeviceTelemetry(selectedDevice?.id || null);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white flex">
       {/* Left Panel - Fleet */}
@@ -17,21 +44,32 @@ const Design19 = () => {
                 <p className="text-sm text-gray-500">Fleet Overview</p>
               </div>
             </div>
-            <button className="px-4 py-2 bg-blue-600 rounded-lg text-sm font-medium">
-              + Add Device
-            </button>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => setShowAddDevice(true)}
+                className="px-4 py-2 bg-blue-600 rounded-lg text-sm font-medium hover:bg-blue-500"
+              >
+                + Add Device
+              </button>
+              <button 
+                onClick={signOut}
+                className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </header>
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 p-6 border-b border-gray-800">
           {[
-            { label: "Total", value: "12", color: "blue" },
-            { label: "Active", value: "9", color: "green" },
-            { label: "Alerts", value: "2", color: "yellow" },
+            { label: "Total", value: totalCount.toString(), bgColor: "bg-blue-500/10", borderColor: "border-blue-500/30", textColor: "text-blue-400" },
+            { label: "Active", value: activeCount.toString(), bgColor: "bg-green-500/10", borderColor: "border-green-500/30", textColor: "text-green-400" },
+            { label: "Alerts", value: unreadCount.toString(), bgColor: "bg-yellow-500/10", borderColor: "border-yellow-500/30", textColor: "text-yellow-400" },
           ].map((stat, i) => (
-            <div key={i} className={`bg-${stat.color}-500/10 border border-${stat.color}-500/30 rounded-xl p-4 text-center`}>
-              <p className={`text-3xl font-bold text-${stat.color}-400`}>{stat.value}</p>
+            <div key={i} className={`${stat.bgColor} border ${stat.borderColor} rounded-xl p-4 text-center`}>
+              <p className={`text-3xl font-bold ${stat.textColor}`}>{stat.value}</p>
               <p className="text-sm text-gray-500">{stat.label}</p>
             </div>
           ))}
@@ -40,45 +78,59 @@ const Design19 = () => {
         {/* Device List */}
         <div className="flex-1 overflow-auto p-4">
           <div className="space-y-3">
-            {[
-              { name: "Range Rover Sport", plate: "AB12 CDE", status: "Moving", speed: "78 km/h", type: Car, selected: true },
-              { name: "Mercedes V-Class", plate: "XY34 ZAB", status: "Idle", speed: "0 km/h", type: Car, selected: false },
-              { name: "Swift Challenger 580", plate: "Caravan", status: "Towing", speed: "54 km/h", type: Caravan, selected: false },
-              { name: "Princess V48", plate: "Marina B7", status: "Cruising", speed: "18 kn", type: Ship, selected: false },
-              { name: "BMW X5", plate: "CD56 EFG", status: "Parked", speed: "0 km/h", type: Car, selected: false },
-              { name: "Fairline Squadron", plate: "Marina C2", status: "Anchored", speed: "0 kn", type: Ship, selected: false },
-            ].map((device, i) => (
-              <div key={i} className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                device.selected 
-                  ? 'bg-blue-500/10 border-blue-500/50' 
-                  : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
-              }`}>
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    device.selected ? 'bg-blue-500' : 'bg-gray-700'
-                  }`}>
-                    <device.type className={`w-6 h-6 ${device.selected ? 'text-white' : 'text-gray-400'}`} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium">{device.name}</h3>
-                      <button className="p-1 hover:bg-gray-700 rounded">
-                        <MoreVertical className="w-4 h-4 text-gray-500" />
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-500">{device.plate}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-700/50">
-                  <span className={`text-sm ${
-                    device.status === 'Moving' || device.status === 'Cruising' || device.status === 'Towing'
-                      ? 'text-green-400'
-                      : 'text-gray-500'
-                  }`}>{device.status}</span>
-                  <span className="text-lg font-bold">{device.speed}</span>
-                </div>
+            {loading ? (
+              <div className="text-center py-8 text-gray-500">Loading devices...</div>
+            ) : devices.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <p>No devices yet</p>
+                <button 
+                  onClick={() => setShowAddDevice(true)}
+                  className="mt-2 text-blue-400 hover:text-blue-300"
+                >
+                  Add your first device
+                </button>
               </div>
-            ))}
+            ) : (
+              devices.map((device) => {
+                const Icon = getDeviceIcon(device.type);
+                const isSelected = selectedDevice?.id === device.id;
+                
+                return (
+                  <div 
+                    key={device.id} 
+                    onClick={() => setSelectedDeviceId(device.id)}
+                    className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                      isSelected 
+                        ? 'bg-blue-500/10 border-blue-500/50' 
+                        : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                        isSelected ? 'bg-blue-500' : 'bg-gray-700'
+                      }`}>
+                        <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-400'}`} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-medium">{device.name}</h3>
+                          <button className="p-1 hover:bg-gray-700 rounded">
+                            <MoreVertical className="w-4 h-4 text-gray-500" />
+                          </button>
+                        </div>
+                        <p className="text-sm text-gray-500">{device.plate || 'No plate'}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-700/50">
+                      <DeviceStatusBadge status={device.status} showLabel />
+                      <span className="text-lg font-bold">
+                        {isSelected && telemetry ? `${telemetry.speed} km/h` : '-- km/h'}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
@@ -91,44 +143,67 @@ const Design19 = () => {
             <div className="text-center">
               <MapPin className="w-16 h-16 text-blue-400 mx-auto mb-4" />
               <p className="text-gray-500">Live Location Map</p>
-              <p className="text-sm text-gray-600">Range Rover Sport</p>
+              <p className="text-sm text-gray-600">
+                {selectedDevice ? selectedDevice.name : 'Select a device'}
+              </p>
             </div>
           </div>
           
           {/* Map Controls */}
           <div className="absolute top-4 right-4 flex gap-2">
-            <button className="px-4 py-2 bg-blue-600 rounded-lg text-sm font-medium">Live</button>
-            <button className="px-4 py-2 bg-gray-700 rounded-lg text-sm">History</button>
-            <button className="px-4 py-2 bg-gray-700 rounded-lg text-sm">Geofence</button>
+            <button 
+              className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                canAccessLiveTracking 
+                  ? 'bg-blue-600 hover:bg-blue-500' 
+                  : 'bg-gray-700 cursor-not-allowed'
+              }`}
+              disabled={!canAccessLiveTracking}
+            >
+              {canAccessLiveTracking ? 'Live' : '🔒 Live'}
+            </button>
+            <button className="px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600">History</button>
+            <button className="px-4 py-2 bg-gray-700 rounded-lg text-sm hover:bg-gray-600">Geofence</button>
           </div>
 
           {/* Location Info */}
-          <div className="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur rounded-xl p-4">
-            <p className="text-sm text-gray-400">Current Location</p>
-            <p className="font-medium">A40, London, UK</p>
-            <p className="text-xs text-gray-500 mt-1">51.5074° N, 0.1278° W</p>
-          </div>
+          {selectedDevice && (
+            <div className="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur rounded-xl p-4">
+              <p className="text-sm text-gray-400">Current Location</p>
+              <p className="font-medium">{telemetry?.address || 'Location unavailable'}</p>
+              {telemetry?.latitude && telemetry?.longitude && (
+                <p className="text-xs text-gray-500 mt-1">
+                  {telemetry.latitude.toFixed(4)}° N, {telemetry.longitude.toFixed(4)}° W
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Telemetry Section */}
         <div className="bg-gray-900 border-t border-gray-800 p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-bold">Range Rover Sport</h2>
-              <p className="text-sm text-gray-500">AB12 CDE • Last update: 2s ago</p>
+              <h2 className="text-lg font-bold">
+                {selectedDevice ? selectedDevice.name : 'No Device Selected'}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {selectedDevice?.plate || 'No plate'} • Last update: {telemetry ? 'Just now' : 'N/A'}
+              </p>
             </div>
-            <button className="px-4 py-2 bg-gray-800 rounded-lg text-sm">Ping Device</button>
+            <button className="px-4 py-2 bg-gray-800 rounded-lg text-sm hover:bg-gray-700">
+              Ping Device
+            </button>
           </div>
 
           <div className="grid grid-cols-4 gap-4">
             {[
-              { icon: Gauge, label: "Speed", value: "78 km/h", color: "blue" },
-              { icon: Satellite, label: "GPS Sats", value: "14", color: "green" },
-              { icon: Signal, label: "Signal", value: "4G LTE", color: "purple" },
-              { icon: Battery, label: "Battery", value: "94%", color: "yellow" },
+              { icon: Gauge, label: "Speed", value: `${telemetry?.speed || 0} km/h`, color: "text-blue-400" },
+              { icon: Satellite, label: "GPS Sats", value: telemetry?.satellites?.toString() || '0', color: "text-green-400" },
+              { icon: Signal, label: "Signal", value: telemetry?.signal_strength ? `${telemetry.signal_strength}%` : 'N/A', color: "text-purple-400" },
+              { icon: Battery, label: "Battery", value: `${telemetry?.battery_level || 0}%`, color: "text-yellow-400" },
             ].map((item, i) => (
               <div key={i} className="bg-gray-800 rounded-xl p-4">
-                <item.icon className={`w-5 h-5 text-${item.color}-400 mb-3`} />
+                <item.icon className={`w-5 h-5 ${item.color} mb-3`} />
                 <p className="text-2xl font-bold">{item.value}</p>
                 <p className="text-sm text-gray-500">{item.label}</p>
               </div>
@@ -136,40 +211,40 @@ const Design19 = () => {
           </div>
 
           {/* SIM Info */}
-          <div className="mt-4 bg-gray-800 rounded-xl p-4">
-            <h3 className="text-sm font-medium text-gray-400 mb-3">SIM Information</h3>
-            <div className="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <p className="text-gray-500">ICCID</p>
-                <p className="font-mono">8944...7890</p>
-              </div>
-              <div>
-                <p className="text-gray-500">Carrier</p>
-                <p>Vodafone UK</p>
-              </div>
-              <div>
-                <p className="text-gray-500">Data Used</p>
-                <p>234 MB</p>
-              </div>
-              <div>
-                <p className="text-gray-500">Roaming</p>
-                <p className="text-green-400">No</p>
+          {selectedDevice && (
+            <div className="mt-4 bg-gray-800 rounded-xl p-4">
+              <h3 className="text-sm font-medium text-gray-400 mb-3">SIM Information</h3>
+              <div className="grid grid-cols-4 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-500">ICCID</p>
+                  <p className="font-mono">{selectedDevice.sim_iccid ? `${selectedDevice.sim_iccid.slice(0, 4)}...${selectedDevice.sim_iccid.slice(-4)}` : 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Carrier</p>
+                  <p>Unknown</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Data Used</p>
+                  <p>0 MB</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Roaming</p>
+                  <p className="text-green-400">No</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Subscription CTA */}
-          <div className="mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-4 flex items-center justify-between">
-            <div>
-              <p className="font-medium">Upgrade for Live Tracking</p>
-              <p className="text-sm text-blue-200">Real-time updates every second</p>
+          {!isPro && (
+            <div className="mt-4">
+              <SubscriptionBanner variant="gradient" />
             </div>
-            <button className="px-6 py-2 bg-white text-blue-600 rounded-lg font-bold">
-              Subscribe
-            </button>
-          </div>
+          )}
         </div>
       </div>
+
+      <AddDeviceDialog isOpen={showAddDevice} onClose={() => setShowAddDevice(false)} />
     </div>
   );
 };
