@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 const designs = [
   { id: 1, name: "Minimal Dark", description: "Clean dark theme with minimal elements" },
   { id: 4, name: "Corporate Blue", description: "Professional traditional dashboard" },
-  { id: 5, name: "Retro Terminal", description: "Green on black terminal style" },
   { id: 9, name: "Card Grid", description: "Card-based modular layout" },
   { id: 10, name: "Sidebar Heavy", description: "Prominent sidebar navigation" },
   { id: 18, name: "Data Dense", description: "Information-heavy analytics" },
