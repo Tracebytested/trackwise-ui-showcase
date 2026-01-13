@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Navigation, Bell, Settings, LogOut, Search, ChevronRight } from 'lucide-react';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Navigation, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useDevices } from '@/hooks/useDevices';
 import { useDeviceTelemetry } from '@/hooks/useDeviceTelemetry';
@@ -10,10 +10,16 @@ import { AddDeviceDialog } from '@/components/shared/AddDeviceDialog';
 import mapPlaceholder from '@/assets/map-placeholder.jpg';
 const getDeviceIcon = (type: string) => {
   switch (type) {
-    case 'yacht':
+    case 'boat':
       return Ship;
     case 'caravan':
       return Caravan;
+    case 'security_tower':
+      return Shield;
+    case 'truck':
+      return Truck;
+    case 'other':
+      return HelpCircle;
     default:
       return Car;
   }
@@ -227,52 +233,301 @@ const Design5 = () => {
             </div>
           </div>
 
-          {/* Telemetry Panel */}
-          {selectedDevice && <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-slate-800">
-                  {selectedDevice.name} — {selectedDevice.plate || 'No Plate'}
-                </h3>
-                <Link to="/vehicles" className="text-blue-600 text-sm hover:text-blue-700 flex items-center gap-1">
-                  View Details <ChevronRight className="w-4 h-4" />
-                </Link>
+          {/* Device Information Panel */}
+          {selectedDevice && <div className="space-y-4">
+              {/* Device Header */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="font-semibold text-slate-800">Device Information</h3>
+                    <p className="text-sm text-slate-500">IMEI: {selectedDevice.imei || '—'}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-slate-500">Last Update: {telemetry?.created_at ? new Date(telemetry.created_at).toLocaleString() : '—'}</span>
+                      <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs rounded-full">Live</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-2 text-sm text-slate-600">
+                      <input type="checkbox" defaultChecked className="rounded" />
+                      Auto-refresh (30s)
+                    </label>
+                    <button className="p-2 hover:bg-slate-100 rounded-lg">
+                      <RefreshCw className="w-4 h-4 text-slate-600" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quick Status Cards */}
+                <div className="grid grid-cols-5 gap-3 mb-4">
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Movement</p>
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${selectedDevice.status === 'moving' ? 'bg-emerald-100 text-emerald-700' : selectedDevice.status === 'idle' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
+                      {selectedDevice.status === 'moving' ? 'Moving' : selectedDevice.status === 'idle' ? 'Idle' : 'Parked'}
+                    </span>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Satellites</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Satellite className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">{telemetry?.satellites || 0}</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Network</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Signal className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">4G</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">External Voltage</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Zap className="w-4 h-4 text-amber-500" />
+                      <span className="font-semibold text-amber-600">12.64V</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Ignition</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Key className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">{telemetry?.ignition ? 'ON' : 'OFF'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Battery Level */}
+                <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 mb-4">
+                  <div className="flex items-center gap-2">
+                    <Battery className="w-5 h-5 text-slate-600" />
+                    <span className="text-xs text-slate-500">Battery Level</span>
+                    <span className="font-bold text-slate-800 text-lg ml-2">{telemetry?.battery_level || 0}%</span>
+                  </div>
+                </div>
+
+                {/* Second Row Status */}
+                <div className="grid grid-cols-4 gap-3">
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">OBD Speed</p>
+                    <span className="font-semibold text-slate-800">—</span>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Unplug Detection</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <PlugZap className="w-4 h-4 text-emerald-500" />
+                      <span className="font-semibold text-emerald-600">Plugged In</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Trip Odometer</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Route className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">0.00 km</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Engine Runtime</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Clock className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">—</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="grid grid-cols-6 gap-4">
-                {[{
-              label: "Speed",
-              value: `${telemetry?.speed || 0} km/h`,
-              icon: Gauge,
-              color: "text-blue-600"
-            }, {
-              label: "GPS Satellites",
-              value: telemetry?.satellites?.toString() || '0',
-              icon: Satellite,
-              color: "text-emerald-600"
-            }, {
-              label: "Signal Strength",
-              value: telemetry?.signal_strength ? `${telemetry.signal_strength}%` : 'N/A',
-              icon: Signal,
-              color: "text-amber-600"
-            }, {
-              label: "Battery Level",
-              value: `${telemetry?.battery_level || 0}%`,
-              icon: Battery,
-              color: "text-purple-600"
-            }, {
-              label: "Heading",
-              value: telemetry?.heading ? `${telemetry.heading}°` : 'N/A',
-              icon: Navigation,
-              color: "text-rose-600"
-            }, {
-              label: "Last Update",
-              value: telemetry?.created_at ? 'Just now' : 'N/A',
-              icon: Signal,
-              color: "text-cyan-600"
-            }].map((item, i) => <div key={i} className="text-center p-4 bg-slate-50 rounded-xl">
-                    <item.icon className={`w-5 h-5 ${item.color} mx-auto mb-2`} />
-                    <p className="text-xl font-bold text-slate-800">{item.value}</p>
-                    <p className="text-xs text-slate-500 mt-1">{item.label}</p>
-                  </div>)}
+
+              {/* System Information */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Signal className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">System Information</h4>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">Device Battery Voltage</p>
+                    <p className="font-medium text-slate-800">4.05V</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">External Voltage</p>
+                    <p className="font-medium text-slate-800">12.64V</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Carrier</p>
+                    <p className="font-medium text-slate-800">Optus</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Carrier Country</p>
+                    <p className="font-medium text-slate-800">Australia</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Battery Level</p>
+                    <p className="font-medium text-slate-800">{telemetry?.battery_level || 0}%</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Battery Current</p>
+                    <p className="font-medium text-slate-800">0</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">GSM Signal</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Cellular Signal</p>
+                    <p className="font-medium text-slate-800">{telemetry?.signal_strength || 0}%</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Sleep Mode</p>
+                    <p className="font-medium text-slate-800">Off</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Unplug Detection</p>
+                    <p className="font-medium text-emerald-600">Plugged In</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">ICCID</p>
+                    <p className="font-medium text-slate-800">{selectedDevice.sim_iccid || '—'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* GPS Information */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Satellite className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">GPS Information</h4>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">Altitude</p>
+                    <p className="font-medium text-slate-800">{telemetry?.altitude || 0} m</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">GNSS HDOP</p>
+                    <p className="font-medium text-amber-600">6.0 (Fair)</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Gnss Pdop</p>
+                    <p className="font-medium text-emerald-600">Good</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Gnss Status</p>
+                    <p className="font-medium text-emerald-600">ON (Fix)</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Estimated Speed (GPS BASED)</p>
+                    <p className="font-medium text-slate-800">{telemetry?.speed || 0} km/h</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Engine Information */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Gauge className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">Engine Information</h4>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">Engine RPM</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Coolant Temp</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Engine Load</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Intake MAP</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Intake Air Temp</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">MAF Air Flow</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Engine Runtime</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">OBD Speed</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* OBD Diagnostics */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Info className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">OBD Diagnostics</h4>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">DTC Codes</p>
+                  <p className="font-medium text-slate-800">—</p>
+                </div>
+              </div>
+
+              {/* Mileage Information */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Route className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">Mileage Information</h4>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">Total Odometer</p>
+                    <p className="font-medium text-slate-800">139208 km</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Trip Odometer</p>
+                    <p className="font-medium text-slate-800">0.00 km</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fuel & Economy */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Fuel className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">Fuel & Economy</h4>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">Fuel Used Gps</p>
+                    <p className="font-medium text-amber-600">13.65 L (estimate)</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Fuel Rate Gps</p>
+                    <p className="font-medium text-slate-800">0.00 L/h</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Ecoscore</p>
+                    <p className="font-medium text-slate-800">1000</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Vehicle Information */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Car className="w-4 h-4 text-slate-600" />
+                  <h4 className="font-semibold text-slate-800">Vehicle Information</h4>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-blue-600">VIN</p>
+                    <p className="font-medium text-slate-800">—</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-600">Ignition</p>
+                    <p className="font-medium text-slate-800">{telemetry?.ignition ? 'ON' : 'OFF'}</p>
+                  </div>
+                </div>
               </div>
             </div>}
         </main>
