@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History, CreditCard, AlertTriangle, LayoutGrid } from 'lucide-react';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History, CreditCard, AlertTriangle, LayoutGrid, ChevronDown } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
 import { useDevices } from '@/hooks/useDevices';
 import { useDeviceTelemetry } from '@/hooks/useDeviceTelemetry';
@@ -283,8 +284,8 @@ const Design5 = () => {
                     </div>
                   </div>
 
-                {/* Quick Status Cards */}
-                <div className="grid grid-cols-5 gap-3 mb-4">
+                {/* Quick Status Cards - 3x3 Grid */}
+                <div className="grid grid-cols-3 gap-3 mb-4">
                   <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
                     <p className="text-xs text-slate-500 mb-1">Movement</p>
                     <span className={`px-2 py-1 rounded text-xs font-medium ${selectedDevice.status === 'moving' ? 'bg-emerald-100 text-emerald-700' : selectedDevice.status === 'idle' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
@@ -319,19 +320,13 @@ const Design5 = () => {
                       <span className="font-semibold text-slate-800">{telemetry?.ignition ? 'ON' : 'OFF'}</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Battery Level */}
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 mb-4">
-                  <div className="flex items-center gap-2">
-                    <Battery className="w-5 h-5 text-slate-600" />
-                    <span className="text-xs text-slate-500">Battery Level</span>
-                    <span className="font-bold text-slate-800 text-lg ml-2">{telemetry?.battery_level || 0}%</span>
+                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                    <p className="text-xs text-slate-500 mb-1">Battery Level</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Battery className="w-4 h-4 text-slate-600" />
+                      <span className="font-semibold text-slate-800">{telemetry?.battery_level || 0}%</span>
+                    </div>
                   </div>
-                </div>
-
-                {/* Second Row Status */}
-                <div className="grid grid-cols-4 gap-3">
                   <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
                     <p className="text-xs text-slate-500 mb-1">OBD Speed</p>
                     <span className="font-semibold text-slate-800">—</span>
@@ -340,7 +335,7 @@ const Design5 = () => {
                     <p className="text-xs text-slate-500 mb-1">Unplug Detection</p>
                     <div className="flex items-center justify-center gap-1">
                       <PlugZap className="w-4 h-4 text-emerald-500" />
-                      <span className="font-semibold text-emerald-600">Plugged In</span>
+                      <span className="font-semibold text-emerald-600">Plugged</span>
                     </div>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
@@ -350,210 +345,234 @@ const Design5 = () => {
                       <span className="font-semibold text-slate-800">0.00 km</span>
                     </div>
                   </div>
-                  <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-                    <p className="text-xs text-slate-500 mb-1">Engine Runtime</p>
-                    <div className="flex items-center justify-center gap-1">
-                      <Clock className="w-4 h-4 text-slate-600" />
-                      <span className="font-semibold text-slate-800">—</span>
-                    </div>
-                  </div>
                 </div>
 
+                {/* Accordion Sections */}
+                <Accordion type="multiple" className="space-y-2">
                   {/* System Information */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Signal className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">System Information</h4>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">Device Battery Voltage</p>
-                        <p className="font-medium text-slate-800">4.05V</p>
+                  <AccordionItem value="system" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Signal className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">System Information</span>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">External Voltage</p>
-                        <p className="font-medium text-slate-800">12.64V</p>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-3 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">Device Battery Voltage</p>
+                          <p className="font-medium text-slate-800">4.05V</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">External Voltage</p>
+                          <p className="font-medium text-slate-800">12.64V</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Carrier</p>
+                          <p className="font-medium text-slate-800">Optus</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Carrier Country</p>
+                          <p className="font-medium text-slate-800">Australia</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Battery Level</p>
+                          <p className="font-medium text-slate-800">{telemetry?.battery_level || 0}%</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Battery Current</p>
+                          <p className="font-medium text-slate-800">0</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">GSM Signal</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Cellular Signal</p>
+                          <p className="font-medium text-slate-800">{telemetry?.signal_strength || 0}%</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Sleep Mode</p>
+                          <p className="font-medium text-slate-800">Off</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Unplug Detection</p>
+                          <p className="font-medium text-emerald-600">Plugged In</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">ICCID</p>
+                          <p className="font-medium text-slate-800">{selectedDevice.sim_iccid || '—'}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Carrier</p>
-                        <p className="font-medium text-slate-800">Optus</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Carrier Country</p>
-                        <p className="font-medium text-slate-800">Australia</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Battery Level</p>
-                        <p className="font-medium text-slate-800">{telemetry?.battery_level || 0}%</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Battery Current</p>
-                        <p className="font-medium text-slate-800">0</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">GSM Signal</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Cellular Signal</p>
-                        <p className="font-medium text-slate-800">{telemetry?.signal_strength || 0}%</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Sleep Mode</p>
-                        <p className="font-medium text-slate-800">Off</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Unplug Detection</p>
-                        <p className="font-medium text-emerald-600">Plugged In</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">ICCID</p>
-                        <p className="font-medium text-slate-800">{selectedDevice.sim_iccid || '—'}</p>
-                      </div>
-                    </div>
-                  </div>
+                    </AccordionContent>
+                  </AccordionItem>
 
                   {/* GPS Information */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Satellite className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">GPS Information</h4>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">Altitude</p>
-                        <p className="font-medium text-slate-800">{telemetry?.altitude || 0} m</p>
+                  <AccordionItem value="gps" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Satellite className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">GPS Information</span>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">GNSS HDOP</p>
-                        <p className="font-medium text-amber-600">6.0 (Fair)</p>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-3 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">Altitude</p>
+                          <p className="font-medium text-slate-800">{telemetry?.altitude || 0} m</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">GNSS HDOP</p>
+                          <p className="font-medium text-amber-600">6.0 (Fair)</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Gnss Pdop</p>
+                          <p className="font-medium text-emerald-600">Good</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Gnss Status</p>
+                          <p className="font-medium text-emerald-600">ON (Fix)</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Estimated Speed (GPS BASED)</p>
+                          <p className="font-medium text-slate-800">{telemetry?.speed || 0} km/h</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Gnss Pdop</p>
-                        <p className="font-medium text-emerald-600">Good</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Gnss Status</p>
-                        <p className="font-medium text-emerald-600">ON (Fix)</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Estimated Speed (GPS BASED)</p>
-                        <p className="font-medium text-slate-800">{telemetry?.speed || 0} km/h</p>
-                      </div>
-                    </div>
-                  </div>
+                    </AccordionContent>
+                  </AccordionItem>
 
                   {/* Engine Information */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Gauge className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">Engine Information</h4>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">Engine RPM</p>
-                        <p className="font-medium text-slate-800">—</p>
+                  <AccordionItem value="engine" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Gauge className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">Engine Information</span>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Coolant Temp</p>
-                        <p className="font-medium text-slate-800">—</p>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-3 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">Engine RPM</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Coolant Temp</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Engine Load</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Intake MAP</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Intake Air Temp</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">MAF Air Flow</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Engine Runtime</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">OBD Speed</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Engine Load</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Intake MAP</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Intake Air Temp</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">MAF Air Flow</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Engine Runtime</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">OBD Speed</p>
-                        <p className="font-medium text-slate-800">—</p>
-                      </div>
-                    </div>
-                  </div>
+                    </AccordionContent>
+                  </AccordionItem>
 
                   {/* OBD Diagnostics */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Info className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">OBD Diagnostics</h4>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500">DTC Codes</p>
-                      <p className="font-medium text-slate-800">—</p>
-                    </div>
-                  </div>
-
-                  {/* Mileage Information */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Route className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">Mileage Information</h4>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">Total Odometer</p>
-                        <p className="font-medium text-slate-800">139208 km</p>
+                  <AccordionItem value="obd" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Info className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">OBD Diagnostics</span>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Trip Odometer</p>
-                        <p className="font-medium text-slate-800">0.00 km</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Fuel & Economy */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Fuel className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">Fuel & Economy</h4>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">Fuel Used Gps</p>
-                        <p className="font-medium text-amber-600">13.65 L (estimate)</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Fuel Rate Gps</p>
-                        <p className="font-medium text-slate-800">0.00 L/h</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Ecoscore</p>
-                        <p className="font-medium text-slate-800">1000</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Vehicle Information */}
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Car className="w-4 h-4 text-slate-600" />
-                      <h4 className="font-semibold text-slate-800">Vehicle Information</h4>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-xs text-blue-600">VIN</p>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="pb-2">
+                        <p className="text-xs text-slate-500">DTC Codes</p>
                         <p className="font-medium text-slate-800">—</p>
                       </div>
-                      <div>
-                        <p className="text-xs text-blue-600">Ignition</p>
-                        <p className="font-medium text-slate-800">{telemetry?.ignition ? 'ON' : 'OFF'}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  {/* Mileage Information */}
+                  <AccordionItem value="mileage" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Route className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">Mileage Information</span>
                       </div>
-                    </div>
-                  </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-2 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">Total Odometer</p>
+                          <p className="font-medium text-slate-800">139208 km</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Trip Odometer</p>
+                          <p className="font-medium text-slate-800">0.00 km</p>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  {/* Fuel & Economy */}
+                  <AccordionItem value="fuel" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Fuel className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">Fuel & Economy</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-3 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">Fuel Used Gps</p>
+                          <p className="font-medium text-amber-600">13.65 L (estimate)</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Fuel Rate Gps</p>
+                          <p className="font-medium text-slate-800">0.00 L/h</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Ecoscore</p>
+                          <p className="font-medium text-slate-800">1000</p>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  {/* Vehicle Information */}
+                  <AccordionItem value="vehicle" className="bg-slate-50 rounded-xl border border-slate-100 px-4">
+                    <AccordionTrigger className="hover:no-underline py-3">
+                      <div className="flex items-center gap-2">
+                        <Car className="w-4 h-4 text-slate-600" />
+                        <span className="font-semibold text-slate-800">Vehicle Information</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-2 gap-4 pb-2">
+                        <div>
+                          <p className="text-xs text-blue-600">VIN</p>
+                          <p className="font-medium text-slate-800">—</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-blue-600">Ignition</p>
+                          <p className="font-medium text-slate-800">{telemetry?.ignition ? 'ON' : 'OFF'}</p>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
                 </TabsContent>
 
                 {/* Control Tab Content */}
