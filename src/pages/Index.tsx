@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 const designs = [
   { id: 1, name: "Minimal Dark", description: "Clean dark theme with minimal elements" },
-  { id: 2, name: "Glassmorphism", description: "Frosted glass effects with blur" },
-  { id: 3, name: "Neon Cyberpunk", description: "Bright neon accents on dark background" },
   { id: 4, name: "Corporate Blue", description: "Professional traditional dashboard" },
   { id: 5, name: "Retro Terminal", description: "Green on black terminal style" },
   { id: 6, name: "Gradient Mesh", description: "Colorful gradient backgrounds" },
