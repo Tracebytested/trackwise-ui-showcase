@@ -72,14 +72,22 @@ export const AddDeviceDialog = ({ isOpen, onClose, onAdd }: AddDeviceDialogProps
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">License Plate</label>
-            <input
-              type="text"
+            <label className="block text-sm font-medium text-slate-700 mb-2">Select Model</label>
+            <select
               value={plate}
               onChange={(e) => setPlate(e.target.value)}
-              placeholder="e.g., AB12 CDE"
-              className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer"
+            >
+              <option value="">Select a model...</option>
+              <option value="BMW X5">BMW X5</option>
+              <option value="BMW X3">BMW X3</option>
+              <option value="Mercedes GLC">Mercedes GLC</option>
+              <option value="Audi Q5">Audi Q5</option>
+              <option value="Toyota Land Cruiser">Toyota Land Cruiser</option>
+              <option value="Range Rover">Range Rover</option>
+              <option value="Volvo XC90">Volvo XC90</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div className="flex gap-3 pt-4">
