@@ -1,15 +1,43 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Navigation, Car, Ship, Caravan, Home, Map, Bell, Settings, BarChart3, Shield, Clock } from "lucide-react";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Navigation, Car, Ship, Caravan, Home, Map, Bell, Settings, BarChart3, Shield, Clock, LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useDevices } from '@/hooks/useDevices';
+import { useDeviceTelemetry } from '@/hooks/useDeviceTelemetry';
+import { useAlerts } from '@/hooks/useAlerts';
+import { useSubscription } from '@/hooks/useSubscription';
+import { DeviceStatusBadge } from '@/components/shared/DeviceStatusBadge';
+import { SubscriptionBanner } from '@/components/shared/SubscriptionBanner';
+import { AddDeviceDialog } from '@/components/shared/AddDeviceDialog';
+
+const getDeviceIcon = (type: string) => {
+  switch (type) {
+    case 'yacht': return Ship;
+    case 'caravan': return Caravan;
+    default: return Car;
+  }
+};
 
 const Design10 = () => {
+  const { signOut } = useAuth();
+  const { devices, loading, totalCount, activeCount, movingCount } = useDevices();
+  const { unreadCount } = useAlerts();
+  const { canAccessLiveTracking, isPro } = useSubscription();
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [activeMenu, setActiveMenu] = useState('Dashboard');
+  const [showAddDevice, setShowAddDevice] = useState(false);
+
+  const selectedDevice = devices.find(d => d.id === selectedDeviceId) || devices[0];
+  const { telemetry } = useDeviceTelemetry(selectedDevice?.id || null);
+
   const menuItems = [
-    { icon: Home, label: "Dashboard", active: true },
+    { icon: Home, label: "Dashboard" },
     { icon: Map, label: "Live Map" },
     { icon: Car, label: "Vehicles" },
     { icon: Shield, label: "Geofences" },
     { icon: BarChart3, label: "Reports" },
     { icon: Clock, label: "History" },
-    { icon: Bell, label: "Alerts" },
+    { icon: Bell, label: "Alerts", badge: unreadCount > 0 ? unreadCount : undefined },
     { icon: Settings, label: "Settings" },
   ];
 
@@ -38,14 +66,20 @@ const Design10 = () => {
             {menuItems.map((item, i) => (
               <button
                 key={i}
+                onClick={() => setActiveMenu(item.label)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                  item.active 
+                  activeMenu === item.label 
                     ? 'bg-blue-600 text-white' 
                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
               >
                 <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
+                {item.badge && (
+                  <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -53,31 +87,59 @@ const Design10 = () => {
 
         {/* Devices in Sidebar */}
         <div className="p-4 border-t border-slate-800">
-          <h3 className="text-xs text-slate-500 uppercase tracking-wider mb-3">Quick Access</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs text-slate-500 uppercase tracking-wider">Quick Access</h3>
+            <button 
+              onClick={() => setShowAddDevice(true)}
+              className="text-xs text-blue-400 hover:text-blue-300"
+            >
+              + Add
+            </button>
+          </div>
           <div className="space-y-2">
-            {[
-              { name: "BMW X5", status: "Moving", icon: Car },
-              { name: "Yacht Marina", status: "Anchored", icon: Ship },
-              { name: "Bailey Van", status: "Parked", icon: Caravan },
-            ].map((device, i) => (
-              <button key={i} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors">
-                <device.icon className="w-4 h-4 text-slate-400" />
-                <span className="text-sm">{device.name}</span>
-                <span className={`ml-auto w-2 h-2 rounded-full ${device.status === 'Moving' ? 'bg-emerald-400' : 'bg-slate-500'}`}></span>
-              </button>
-            ))}
+            {loading ? (
+              <div className="text-sm text-slate-500">Loading...</div>
+            ) : devices.length === 0 ? (
+              <div className="text-sm text-slate-500">No devices yet</div>
+            ) : (
+              devices.slice(0, 3).map((device) => {
+                const Icon = getDeviceIcon(device.type);
+                return (
+                  <button 
+                    key={device.id} 
+                    onClick={() => setSelectedDeviceId(device.id)}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                      selectedDevice?.id === device.id 
+                        ? 'bg-blue-600/20 border border-blue-500/50' 
+                        : 'hover:bg-slate-800'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 text-slate-400" />
+                    <span className="text-sm">{device.name}</span>
+                    <DeviceStatusBadge status={device.status} />
+                  </button>
+                );
+              })
+            )}
           </div>
         </div>
 
         {/* Pro Badge */}
-        <div className="p-4">
-          <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-xl p-4">
-            <p className="text-sm font-medium text-amber-400 mb-1">Upgrade to Pro</p>
-            <p className="text-xs text-slate-400 mb-3">Unlock live tracking & more</p>
-            <button className="w-full py-2 bg-amber-500 text-black text-sm font-medium rounded-lg">
-              Subscribe
-            </button>
+        {!isPro && (
+          <div className="p-4">
+            <SubscriptionBanner compact />
           </div>
+        )}
+
+        {/* Logout */}
+        <div className="p-4 border-t border-slate-800">
+          <button 
+            onClick={signOut}
+            className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 
@@ -91,11 +153,20 @@ const Design10 = () => {
           <div className="flex items-center gap-4">
             <button className="p-3 bg-slate-800 rounded-xl hover:bg-slate-700 relative">
               <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+              {unreadCount > 0 && (
+                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+              )}
             </button>
-            <button className="px-5 py-3 bg-blue-600 rounded-xl font-medium flex items-center gap-2">
+            <button 
+              className={`px-5 py-3 rounded-xl font-medium flex items-center gap-2 ${
+                canAccessLiveTracking 
+                  ? 'bg-blue-600 hover:bg-blue-500' 
+                  : 'bg-slate-700 cursor-not-allowed'
+              }`}
+              disabled={!canAccessLiveTracking}
+            >
               <MapPin className="w-4 h-4" />
-              Live Track
+              {canAccessLiveTracking ? 'Live Track' : '🔒 Live Track'}
             </button>
           </div>
         </header>
@@ -103,15 +174,15 @@ const Design10 = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-4 gap-6 mb-8">
           {[
-            { label: "Active Vehicles", value: "12", sub: "8 moving", color: "blue" },
-            { label: "Total Distance", value: "2,456 km", sub: "Today", color: "emerald" },
-            { label: "Avg Speed", value: "54 km/h", sub: "Fleet average", color: "amber" },
-            { label: "Alerts", value: "3", sub: "2 critical", color: "red" },
+            { label: "Active Vehicles", value: activeCount.toString(), sub: `${movingCount} moving`, color: "text-blue-400" },
+            { label: "Total Distance", value: "0 km", sub: "Today", color: "text-emerald-400" },
+            { label: "Avg Speed", value: `${telemetry?.speed || 0} km/h`, sub: "Fleet average", color: "text-amber-400" },
+            { label: "Alerts", value: unreadCount.toString(), sub: "Unread", color: "text-red-400" },
           ].map((stat, i) => (
             <div key={i} className="bg-slate-800 rounded-2xl p-6 border border-slate-700">
               <p className="text-sm text-slate-400 mb-2">{stat.label}</p>
               <p className="text-3xl font-bold mb-1">{stat.value}</p>
-              <p className={`text-sm text-${stat.color}-400`}>{stat.sub}</p>
+              <p className={`text-sm ${stat.color}`}>{stat.sub}</p>
             </div>
           ))}
         </div>
@@ -123,26 +194,30 @@ const Design10 = () => {
               <h3 className="font-semibold">Fleet Map</h3>
               <div className="flex gap-2">
                 <button className="px-3 py-1.5 bg-blue-600 rounded-lg text-sm">Live</button>
-                <button className="px-3 py-1.5 bg-slate-700 rounded-lg text-sm">Satellite</button>
+                <button className="px-3 py-1.5 bg-slate-700 rounded-lg text-sm hover:bg-slate-600">Satellite</button>
               </div>
             </div>
             <div className="h-80 bg-slate-900 flex items-center justify-center relative">
               <div className="text-center">
                 <MapPin className="w-12 h-12 text-blue-400 mx-auto mb-2" />
-                <p className="text-slate-400">Interactive Map</p>
+                <p className="text-slate-400">
+                  {selectedDevice ? `Tracking: ${selectedDevice.name}` : 'Select a device'}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="bg-slate-800 rounded-2xl border border-slate-700 p-4">
-            <h3 className="font-semibold mb-4">BMW X5 - Live</h3>
+            <h3 className="font-semibold mb-4">
+              {selectedDevice ? `${selectedDevice.name} - Live` : 'No Device Selected'}
+            </h3>
             <div className="space-y-4">
               {[
-                { icon: Gauge, label: "Speed", value: "72 km/h" },
-                { icon: Satellite, label: "Satellites", value: "14 GPS" },
-                { icon: Signal, label: "Signal", value: "4G LTE" },
-                { icon: Battery, label: "Battery", value: "91%" },
-                { icon: MapPin, label: "Location", value: "London, UK" },
+                { icon: Gauge, label: "Speed", value: `${telemetry?.speed || 0} km/h` },
+                { icon: Satellite, label: "Satellites", value: `${telemetry?.satellites || 0} GPS` },
+                { icon: Signal, label: "Signal", value: telemetry?.signal_strength ? `${telemetry.signal_strength}%` : 'N/A' },
+                { icon: Battery, label: "Battery", value: `${telemetry?.battery_level || 0}%` },
+                { icon: MapPin, label: "Location", value: telemetry?.address || 'Unknown' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 p-3 bg-slate-900 rounded-xl">
                   <item.icon className="w-5 h-5 text-blue-400" />
@@ -154,12 +229,14 @@ const Design10 = () => {
               ))}
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
-              <button className="py-2 bg-blue-600 rounded-lg text-sm">Ping</button>
-              <button className="py-2 bg-slate-700 rounded-lg text-sm">History</button>
+              <button className="py-2 bg-blue-600 rounded-lg text-sm hover:bg-blue-500">Ping</button>
+              <button className="py-2 bg-slate-700 rounded-lg text-sm hover:bg-slate-600">History</button>
             </div>
           </div>
         </div>
       </main>
+
+      <AddDeviceDialog isOpen={showAddDevice} onClose={() => setShowAddDevice(false)} />
     </div>
   );
 };

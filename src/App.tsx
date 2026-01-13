@@ -3,8 +3,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import Subscribe from "./pages/Subscribe";
 import Design1 from "./pages/designs/Design1";
 import Design4 from "./pages/designs/Design4";
 import Design10 from "./pages/designs/Design10";
@@ -14,20 +18,40 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/design/1" element={<Design1 />} />
-          <Route path="/design/4" element={<Design4 />} />
-          <Route path="/design/10" element={<Design10 />} />
-          <Route path="/design/19" element={<Design19 />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/subscribe" element={<Subscribe />} />
+            <Route path="/design/1" element={
+              <ProtectedRoute>
+                <Design1 />
+              </ProtectedRoute>
+            } />
+            <Route path="/design/4" element={
+              <ProtectedRoute>
+                <Design4 />
+              </ProtectedRoute>
+            } />
+            <Route path="/design/10" element={
+              <ProtectedRoute>
+                <Design10 />
+              </ProtectedRoute>
+            } />
+            <Route path="/design/19" element={
+              <ProtectedRoute>
+                <Design19 />
+              </ProtectedRoute>
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
