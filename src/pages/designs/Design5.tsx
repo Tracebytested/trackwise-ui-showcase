@@ -45,6 +45,7 @@ const Design5 = () => {
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
   const [showAddDevice, setShowAddDevice] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [mapView, setMapView] = useState<'live' | 'ping'>('live');
   const selectedDevice = devices.find(d => d.id === selectedDeviceId) || devices[0];
   const {
     telemetry
@@ -205,40 +206,117 @@ const Design5 = () => {
           {/* Map */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
             <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="font-semibold text-slate-800">Live Fleet Map</h2>
+              <h2 className="font-semibold text-slate-800">
+                {mapView === 'live' ? 'Live Fleet Map' : 'Ping Locations'}
+              </h2>
               <div className="flex gap-2">
-                <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">
+                <button 
+                  onClick={() => setMapView('live')}
+                  className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+                    mapView === 'live' 
+                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
                   Live View
                 </button>
-                <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-slate-200">
+                <button 
+                  onClick={() => setMapView('ping')}
+                  className={`px-4 py-2 text-sm rounded-lg transition-colors ${
+                    mapView === 'ping' 
+                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
                   Ping Locations
                 </button>
               </div>
             </div>
             <div className="h-96 relative">
               <img src={mapPlaceholder} alt="Fleet map" className="w-full h-full object-cover" />
-              {selectedDevice && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              
+              {/* Live View Content */}
+              {mapView === 'live' && selectedDevice && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-xl border-3 border-white animate-pulse">
                     <Car className="w-6 h-6 text-white" />
                   </div>
                   <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-lg shadow-lg text-sm font-medium whitespace-nowrap">
                     {selectedDevice.name}
                   </div>
-                </div>}
+                </div>
+              )}
+
+              {/* Ping Locations Content */}
+              {mapView === 'ping' && selectedDevice && (
+                <>
+                  {/* Sample ping markers - these would come from real ping data */}
+                  <div className="absolute top-[30%] left-[25%]">
+                    <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                      <MapPin className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 px-2 py-0.5 rounded text-xs text-white whitespace-nowrap">
+                      09:15
+                    </div>
+                  </div>
+                  <div className="absolute top-[45%] left-[40%]">
+                    <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                      <MapPin className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 px-2 py-0.5 rounded text-xs text-white whitespace-nowrap">
+                      10:32
+                    </div>
+                  </div>
+                  <div className="absolute top-[55%] left-[60%]">
+                    <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                      <MapPin className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 px-2 py-0.5 rounded text-xs text-white whitespace-nowrap">
+                      12:45
+                    </div>
+                  </div>
+                  <div className="absolute top-[40%] left-[75%]">
+                    <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-pulse">
+                      <MapPin className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-emerald-600 px-2 py-0.5 rounded text-xs text-white whitespace-nowrap">
+                      Latest
+                    </div>
+                  </div>
+                </>
+              )}
+
               {/* Legend */}
               <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur rounded-lg shadow-lg px-4 py-3 flex items-center gap-4 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-                  <span className="text-slate-600">Moving ({movingCount})</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-amber-500"></span>
-                  <span className="text-slate-600">Idle</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-slate-400"></span>
-                  <span className="text-slate-600">Offline</span>
-                </div>
+                {mapView === 'live' ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                      <span className="text-slate-600">Moving ({movingCount})</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                      <span className="text-slate-600">Idle</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-slate-400"></span>
+                      <span className="text-slate-600">Offline</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                      <span className="text-slate-600">Latest Ping</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                      <span className="text-slate-600">Previous Pings</span>
+                    </div>
+                    <span className="text-slate-500">|</span>
+                    <span className="text-slate-600">{selectedDevice?.name || 'No device'}</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
