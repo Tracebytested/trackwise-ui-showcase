@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Navigation, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History } from 'lucide-react';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History, CreditCard, AlertTriangle, LayoutGrid } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/hooks/useAuth';
 import { useDevices } from '@/hooks/useDevices';
@@ -100,10 +100,18 @@ const Design5 = () => {
                 <MapPin className="w-5 h-5" />
                 <span>Geofences</span>
               </Link>
-              <Link to="/history" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl">
-                <Navigation className="w-5 h-5" />
-                <span>Trip History</span>
+              <Link to="/alerts" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl">
+                <AlertTriangle className="w-5 h-5" />
+                <span>Alerts</span>
               </Link>
+              <Link to="/subscribe" className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl">
+                <CreditCard className="w-5 h-5" />
+                <span>Subscription</span>
+              </Link>
+              <button className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl w-full text-left">
+                <LayoutGrid className="w-5 h-5" />
+                <span>Multiview</span>
+              </button>
             </nav>
           </div>
 
