@@ -9,6 +9,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { DeviceStatusBadge } from '@/components/shared/DeviceStatusBadge';
 import { SubscriptionBanner } from '@/components/shared/SubscriptionBanner';
 import { AddDeviceDialog } from '@/components/shared/AddDeviceDialog';
+import mapPlaceholder from '@/assets/map-placeholder.jpg';
 
 const getDeviceIcon = (type: string) => {
   switch (type) {
@@ -138,13 +139,25 @@ const Design4 = () => {
                 <button className="px-3 py-1.5 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-slate-200">History</button>
               </div>
             </div>
-            <div className="h-80 bg-slate-100 flex items-center justify-center relative">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-                <p className="text-slate-500">
-                  {selectedDevice ? `Tracking: ${selectedDevice.name}` : 'Select a vehicle to track'}
-                </p>
-              </div>
+            <div className="h-80 relative overflow-hidden">
+              <img 
+                src={mapPlaceholder} 
+                alt="Fleet tracking map" 
+                className="w-full h-full object-cover"
+              />
+              {/* Vehicle marker overlay */}
+              {selectedDevice && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="relative">
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                      <Car className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded shadow text-xs font-medium whitespace-nowrap">
+                      {selectedDevice.name}
+                    </div>
+                  </div>
+                </div>
+              )}
               {/* Legend */}
               <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow px-4 py-3 flex items-center gap-4 text-xs">
                 <div className="flex items-center gap-2">

@@ -46,13 +46,13 @@ export const useSubscription = () => {
     fetchSubscription();
   }, [user]);
 
-  const isPro = subscription?.plan === 'pro' || subscription?.plan === 'enterprise';
-  const isEnterprise = subscription?.plan === 'enterprise';
-  const isActive = subscription?.status === 'active' || subscription?.status === 'trialing';
+  const isPro = true; // Unlocked for testing
+  const isEnterprise = true; // Unlocked for testing
+  const isActive = true; // Unlocked for testing
 
-  const canAccessLiveTracking = isPro && isActive;
-  const canAccessGeofencing = isPro && isActive;
-  const canAccessAlerts = isPro && isActive;
+  const canAccessLiveTracking = true; // Unlocked for testing
+  const canAccessGeofencing = true; // Unlocked for testing
+  const canAccessAlerts = true; // Unlocked for testing
 
   return { 
     subscription, 
