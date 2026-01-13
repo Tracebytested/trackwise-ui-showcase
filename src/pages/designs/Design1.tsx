@@ -43,17 +43,17 @@ const Design1 = () => {
           <span className="text-xs px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded">Live</span>
         </div>
         <div className="flex items-center gap-3">
-          <button className="p-2 hover:bg-zinc-800 rounded-lg transition-colors relative">
+          <Link to="/alerts" className="p-2 hover:bg-zinc-800 rounded-lg transition-colors relative">
             <Bell className="w-5 h-5" />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
-          </button>
-          <button className="p-2 hover:bg-zinc-800 rounded-lg transition-colors">
+          </Link>
+          <Link to="/settings" className="p-2 hover:bg-zinc-800 rounded-lg transition-colors">
             <Settings className="w-5 h-5" />
-          </button>
+          </Link>
           <button onClick={signOut} className="p-2 hover:bg-zinc-800 rounded-lg transition-colors">
             <LogOut className="w-5 h-5" />
           </button>
@@ -64,19 +64,19 @@ const Design1 = () => {
         {/* Sidebar */}
         <aside className="w-64 border-r border-zinc-800 p-4 min-h-[calc(100vh-65px)]">
           <div className="space-y-2">
-            <button className="w-full flex items-center gap-3 px-4 py-3 bg-zinc-800 rounded-lg text-left">
+            <Link to="/vehicles" className="w-full flex items-center gap-3 px-4 py-3 bg-zinc-800 rounded-lg text-left">
               <Car className="w-5 h-5 text-blue-400" />
               <span>All Vehicles</span>
               <span className="ml-auto text-xs bg-zinc-700 px-2 py-1 rounded">{totalCount}</span>
-            </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-zinc-800/50 rounded-lg text-left text-zinc-400">
+            </Link>
+            <Link to="/geofences" className="w-full flex items-center gap-3 px-4 py-3 hover:bg-zinc-800/50 rounded-lg text-left text-zinc-400">
               <MapPin className="w-5 h-5" />
               <span>Geofences</span>
-            </button>
-            <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-zinc-800/50 rounded-lg text-left text-zinc-400">
+            </Link>
+            <Link to="/history" className="w-full flex items-center gap-3 px-4 py-3 hover:bg-zinc-800/50 rounded-lg text-left text-zinc-400">
               <Navigation className="w-5 h-5" />
-              <span>Routes</span>
-            </button>
+              <span>History</span>
+            </Link>
           </div>
 
           <div className="mt-8">
@@ -152,7 +152,7 @@ const Design1 = () => {
               >
                 {canAccessLiveTracking ? 'Live Track' : '🔒 Live Track'}
               </button>
-              <button className="px-4 py-2 bg-zinc-800 rounded-lg text-sm hover:bg-zinc-700">History</button>
+              <Link to="/history" className="px-4 py-2 bg-zinc-800 rounded-lg text-sm hover:bg-zinc-700">History</Link>
             </div>
           </div>
 
