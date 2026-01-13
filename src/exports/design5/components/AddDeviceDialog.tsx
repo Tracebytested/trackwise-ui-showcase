@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Car, Ship, Caravan } from 'lucide-react';
+import { X, Car, Ship, Caravan, Shield, Truck, HelpCircle } from 'lucide-react';
 
 interface AddDeviceDialogProps {
   isOpen: boolean;
@@ -47,25 +47,28 @@ export const AddDeviceDialog = ({ isOpen, onClose, onAdd }: AddDeviceDialogProps
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Vehicle Type</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Device Type</label>
             <div className="grid grid-cols-3 gap-3">
               {[
-                { value: 'car', icon: Car, label: 'Car' },
-                { value: 'yacht', icon: Ship, label: 'Boat' },
+                { value: 'vehicle', icon: Car, label: 'Vehicle' },
+                { value: 'boat', icon: Ship, label: 'Boat' },
                 { value: 'caravan', icon: Caravan, label: 'Caravan' },
+                { value: 'security_tower', icon: Shield, label: 'Security Tower' },
+                { value: 'truck', icon: Truck, label: 'Truck' },
+                { value: 'other', icon: HelpCircle, label: 'Other' },
               ].map((option) => (
                 <button
                   key={option.value}
                   type="button"
                   onClick={() => setType(option.value)}
-                  className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${
+                  className={`p-3 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${
                     type === option.value
                       ? 'border-blue-500 bg-blue-50 text-blue-700'
                       : 'border-slate-200 hover:border-slate-300'
                   }`}
                 >
-                  <option.icon className="w-6 h-6" />
-                  <span className="text-sm font-medium">{option.label}</span>
+                  <option.icon className="w-5 h-5" />
+                  <span className="text-xs font-medium">{option.label}</span>
                 </button>
               ))}
             </div>

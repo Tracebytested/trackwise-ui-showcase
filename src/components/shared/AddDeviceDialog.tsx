@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Car, Ship, Caravan } from 'lucide-react';
+import { X, Car, Ship, Caravan, Shield, Truck, HelpCircle } from 'lucide-react';
 import { useDevices } from '@/hooks/useDevices';
 interface AddDeviceDialogProps {
   isOpen: boolean;
@@ -85,13 +85,25 @@ export const AddDeviceDialog = ({
               label: 'Vehicle',
               icon: Car
             }, {
-              value: 'yacht',
-              label: 'Yacht',
+              value: 'boat',
+              label: 'Boat',
               icon: Ship
             }, {
               value: 'caravan',
               label: 'Caravan',
               icon: Caravan
+            }, {
+              value: 'security_tower',
+              label: 'Security Tower',
+              icon: Shield
+            }, {
+              value: 'truck',
+              label: 'Truck',
+              icon: Truck
+            }, {
+              value: 'other',
+              label: 'Other',
+              icon: HelpCircle
             }].map(item => <button key={item.value} type="button" onClick={() => setType(item.value)} className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-colors ${type === item.value ? 'bg-blue-600 border-blue-500 text-white' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600'}`}>
                   <item.icon className="w-5 h-5" />
                   <span className="text-xs">{item.label}</span>
