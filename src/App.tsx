@@ -8,9 +8,6 @@ import NotFound from "./pages/NotFound";
 import Design1 from "./pages/designs/Design1";
 import Design4 from "./pages/designs/Design4";
 import Design5 from "./pages/designs/Design5";
-import Design6 from "./pages/designs/Design6";
-import Design7 from "./pages/designs/Design7";
-import Design8 from "./pages/designs/Design8";
 import Design9 from "./pages/designs/Design9";
 import Design10 from "./pages/designs/Design10";
 import Design11 from "./pages/designs/Design11";
@@ -37,9 +34,6 @@ const App = () => (
           <Route path="/design/1" element={<Design1 />} />
           <Route path="/design/4" element={<Design4 />} />
           <Route path="/design/5" element={<Design5 />} />
-          <Route path="/design/6" element={<Design6 />} />
-          <Route path="/design/7" element={<Design7 />} />
-          <Route path="/design/8" element={<Design8 />} />
           <Route path="/design/9" element={<Design9 />} />
           <Route path="/design/10" element={<Design10 />} />
           <Route path="/design/11" element={<Design11 />} />
