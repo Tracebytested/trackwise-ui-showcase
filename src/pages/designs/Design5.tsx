@@ -178,7 +178,7 @@ const Design5 = () => {
           {/* Stats Row */}
           <div className="grid grid-cols-4 gap-4 mb-6">
             {[
-              { label: "Total Vehicles", value: totalCount, icon: Car, color: "bg-blue-500" },
+              { label: "Total Devices", value: totalCount, icon: Car, color: "bg-blue-500" },
               { label: "Active Now", value: activeCount, icon: Signal, color: "bg-emerald-500" },
               { label: "Moving", value: movingCount, icon: Gauge, color: "bg-amber-500" },
               { label: "Alerts", value: unreadCount, icon: Bell, color: "bg-red-500" },
