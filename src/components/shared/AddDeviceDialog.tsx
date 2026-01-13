@@ -59,9 +59,22 @@ export const AddDeviceDialog = ({
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-2">
-          </label>
-            <input type="text" value={plate} onChange={e => setPlate(e.target.value)} className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500" placeholder="e.g., AB12 CDE" />
+            <label className="block text-sm text-gray-400 mb-2">Select Model</label>
+            <select 
+              value={plate} 
+              onChange={e => setPlate(e.target.value)} 
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer"
+            >
+              <option value="">Select a model...</option>
+              <option value="BMW X5">BMW X5</option>
+              <option value="BMW X3">BMW X3</option>
+              <option value="Mercedes GLC">Mercedes GLC</option>
+              <option value="Audi Q5">Audi Q5</option>
+              <option value="Toyota Land Cruiser">Toyota Land Cruiser</option>
+              <option value="Range Rover">Range Rover</option>
+              <option value="Volvo XC90">Volvo XC90</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div>
