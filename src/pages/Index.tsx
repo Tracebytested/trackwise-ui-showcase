@@ -1,11 +1,67 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Link } from "react-router-dom";
+
+const designs = [
+  { id: 1, name: "Minimal Dark", description: "Clean dark theme with minimal elements" },
+  { id: 2, name: "Glassmorphism", description: "Frosted glass effects with blur" },
+  { id: 3, name: "Neon Cyberpunk", description: "Bright neon accents on dark background" },
+  { id: 4, name: "Corporate Blue", description: "Professional traditional dashboard" },
+  { id: 5, name: "Retro Terminal", description: "Green on black terminal style" },
+  { id: 6, name: "Gradient Mesh", description: "Colorful gradient backgrounds" },
+  { id: 7, name: "Neumorphism", description: "Soft shadows with 3D effect" },
+  { id: 8, name: "Map Centric", description: "Large map with floating panels" },
+  { id: 9, name: "Card Grid", description: "Card-based modular layout" },
+  { id: 10, name: "Sidebar Heavy", description: "Prominent sidebar navigation" },
+  { id: 11, name: "Minimalist White", description: "Clean white space design" },
+  { id: 12, name: "Military Tactical", description: "Dark tactical operations feel" },
+  { id: 13, name: "Maritime Blue", description: "Ocean-inspired for marine tracking" },
+  { id: 14, name: "Racing Theme", description: "Speed-focused dynamic design" },
+  { id: 15, name: "Eco Green", description: "Nature and eco-friendly theme" },
+  { id: 16, name: "Luxury Gold", description: "Premium gold accents" },
+  { id: 17, name: "Flat Modern", description: "Bold flat design colors" },
+  { id: 18, name: "Data Dense", description: "Information-heavy analytics" },
+  { id: 19, name: "Split View", description: "Dual panel interface" },
+  { id: 20, name: "Command Center", description: "Mission control style" },
+];
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
+      <div className="max-w-7xl mx-auto">
+        <header className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-white mb-4">TrackPro UI Gallery</h1>
+          <p className="text-xl text-slate-400">20 unique dashboard designs for vehicle & asset tracking</p>
+          <div className="flex justify-center gap-4 mt-6 text-sm text-slate-500">
+            <span className="px-3 py-1 bg-slate-800 rounded-full">Cars</span>
+            <span className="px-3 py-1 bg-slate-800 rounded-full">Caravans</span>
+            <span className="px-3 py-1 bg-slate-800 rounded-full">Boats</span>
+            <span className="px-3 py-1 bg-slate-800 rounded-full">Telematics</span>
+          </div>
+        </header>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {designs.map((design) => (
+            <Link
+              key={design.id}
+              to={`/design/${design.id}`}
+              className="group relative overflow-hidden rounded-2xl bg-slate-800/50 border border-slate-700 p-6 hover:border-blue-500 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20"
+            >
+              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold">
+                {design.id}
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                {design.name}
+              </h3>
+              <p className="text-sm text-slate-400">{design.description}</p>
+              <div className="mt-4 text-blue-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                View Design →
+              </div>
+            </Link>
+          ))}
+        </div>
+        
+        <footer className="mt-16 text-center text-slate-500 text-sm">
+          <p>Each design includes: Live Tracking • Geofencing • Device Ping • Telematics Data</p>
+        </footer>
       </div>
     </div>
   );
