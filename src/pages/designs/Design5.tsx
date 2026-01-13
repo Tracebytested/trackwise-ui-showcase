@@ -206,14 +206,9 @@ const Design5 = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
             <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
               <h2 className="font-semibold text-slate-800">Live Fleet Map</h2>
-              <div className="flex gap-2">
-                <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">
-                  Live View
-                </button>
-                <Link to="/history" className="px-4 py-2 bg-slate-100 text-slate-600 text-sm rounded-lg hover:bg-slate-200">
-                  History
-                </Link>
-              </div>
+              <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">
+                Live View
+              </button>
             </div>
             <div className="h-96 relative">
               <img src={mapPlaceholder} alt="Fleet map" className="w-full h-full object-cover" />
