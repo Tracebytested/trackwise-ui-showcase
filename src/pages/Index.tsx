@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 const designs = [
   { id: 1, name: "Minimal Dark", description: "Clean dark theme with minimal elements" },
   { id: 4, name: "Corporate Blue", description: "Professional traditional dashboard" },
+  { id: 5, name: "Blue Sidebar Pro", description: "Corporate blue with left sidebar devices" },
+  { id: 6, name: "Velocity Gradient", description: "Modern gradients with collapsible panel" },
+  { id: 7, name: "Enterprise Dark", description: "Dark theme with compact sidebar" },
   { id: 10, name: "Sidebar Heavy", description: "Prominent sidebar navigation" },
   { id: 19, name: "Split View", description: "Dual panel interface" },
 ];
