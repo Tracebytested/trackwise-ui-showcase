@@ -9,6 +9,11 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Subscribe from "./pages/Subscribe";
+import Geofences from "./pages/Geofences";
+import Alerts from "./pages/Alerts";
+import History from "./pages/History";
+import Settings from "./pages/Settings";
+import Vehicles from "./pages/Vehicles";
 import Design1 from "./pages/designs/Design1";
 import Design4 from "./pages/designs/Design4";
 import Design10 from "./pages/designs/Design10";
@@ -27,6 +32,31 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/subscribe" element={<Subscribe />} />
+            <Route path="/geofences" element={
+              <ProtectedRoute>
+                <Geofences />
+              </ProtectedRoute>
+            } />
+            <Route path="/alerts" element={
+              <ProtectedRoute>
+                <Alerts />
+              </ProtectedRoute>
+            } />
+            <Route path="/history" element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            } />
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            } />
+            <Route path="/vehicles" element={
+              <ProtectedRoute>
+                <Vehicles />
+              </ProtectedRoute>
+            } />
             <Route path="/design/1" element={
               <ProtectedRoute>
                 <Design1 />
