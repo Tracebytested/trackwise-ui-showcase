@@ -10,12 +10,8 @@ const designs = [
   { id: 12, name: "Military Tactical", description: "Dark tactical operations feel" },
   { id: 13, name: "Maritime Blue", description: "Ocean-inspired for marine tracking" },
   { id: 14, name: "Racing Theme", description: "Speed-focused dynamic design" },
-  { id: 15, name: "Eco Green", description: "Nature and eco-friendly theme" },
-  { id: 16, name: "Luxury Gold", description: "Premium gold accents" },
-  { id: 17, name: "Flat Modern", description: "Bold flat design colors" },
   { id: 18, name: "Data Dense", description: "Information-heavy analytics" },
   { id: 19, name: "Split View", description: "Dual panel interface" },
-  { id: 20, name: "Command Center", description: "Mission control style" },
 ];
 
 const Index = () => {
