@@ -239,14 +239,14 @@ const Design5 = () => {
               {/* Tabs Header */}
               <Tabs defaultValue="status" className="w-full">
                 <div className="px-5 pt-4 border-b border-slate-100">
-                  <TabsList className="bg-slate-100 p-1">
-                    <TabsTrigger value="status" className="data-[state=active]:bg-white data-[state=active]:shadow-sm px-6">
+                  <TabsList className="bg-slate-100 p-1 w-full grid grid-cols-3">
+                    <TabsTrigger value="status" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       Status
                     </TabsTrigger>
-                    <TabsTrigger value="control" className="data-[state=active]:bg-white data-[state=active]:shadow-sm px-6">
+                    <TabsTrigger value="control" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       Control
                     </TabsTrigger>
-                    <TabsTrigger value="history" className="data-[state=active]:bg-white data-[state=active]:shadow-sm px-6">
+                    <TabsTrigger value="history" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
                       History
                     </TabsTrigger>
                   </TabsList>
