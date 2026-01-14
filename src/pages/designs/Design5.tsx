@@ -146,7 +146,7 @@ const Design5 = () => {
                           <p className={`font-medium truncate ${isSelected ? 'text-blue-900' : 'text-slate-800'}`}>
                             {device.name}
                           </p>
-                          <p className="text-xs text-slate-500">{device.plate || 'No plate'}</p>
+                          <p className="text-xs text-slate-500">FMC003</p>
                         </div>
                         <DeviceStatusBadge status={device.status} />
                       </div>
