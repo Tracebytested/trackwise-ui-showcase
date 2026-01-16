@@ -679,389 +679,450 @@ const Design5 = () => {
                       </TabsList>
 
                       {/* Config Tab */}
-                      <TabsContent value="config" className="mt-3 space-y-3">
-                        {/* Restart Device */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-2">Restart Device</h4>
-                          <button className="w-full py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                            <RefreshCw className="w-3 h-3" />
-                            Restart Device
-                          </button>
-                          <p className="text-[10px] text-slate-500 mt-1.5">This will perform a soft reset of the device</p>
-                        </div>
+                      <TabsContent value="config" className="mt-3">
+                        <Accordion type="multiple" className="space-y-2">
+                          {/* Restart Device */}
+                          <AccordionItem value="restart" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <RefreshCw className="w-3.5 h-3.5 text-red-500" />
+                                <span className="font-medium text-sm text-slate-800">Restart Device</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <button className="w-full py-2 bg-red-500 hover:bg-red-600 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                <RefreshCw className="w-3 h-3" />
+                                Restart Device
+                              </button>
+                              <p className="text-[10px] text-slate-500 mt-1.5">This will perform a soft reset of the device</p>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Data Acquisition */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <div className="flex items-center gap-1.5 mb-0.5">
-                            <Zap className="w-3 h-3 text-slate-600" />
-                            <h4 className="font-medium text-sm text-slate-800">Data Acquisition</h4>
-                          </div>
-                          <p className="text-[10px] text-slate-500 mb-3">Configure how often the device sends location data to the portal</p>
-                          
-                          <p className="text-[10px] text-slate-600 mb-1.5">Select Data Acquisition Mode</p>
-                          <div className="grid grid-cols-2 gap-2 mb-3">
-                            <button className="py-2 px-3 bg-blue-600 text-white text-xs font-medium rounded-md">
-                              <div className="font-medium text-xs">Standard</div>
-                              <div className="text-[9px] opacity-80">On Stop: 5 minutes</div>
-                              <div className="text-[9px] opacity-80">On Moving: 30 seconds</div>
-                            </button>
-                            <button className="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-md transition-colors">
-                              <div className="font-medium text-xs">High Frequency</div>
-                              <div className="text-[9px] text-slate-500">On Stop: 30 seconds</div>
-                              <div className="text-[9px] text-slate-500">On Moving: 10 seconds</div>
-                            </button>
-                          </div>
-                          
-                          <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                            <Settings className="w-3 h-3" />
-                            Apply to Device
-                          </button>
-                        </div>
+                          {/* Data Acquisition */}
+                          <AccordionItem value="data-acquisition" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                                <span className="font-medium text-sm text-slate-800">Data Acquisition</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <p className="text-[10px] text-slate-500 mb-3">Configure how often the device sends location data to the portal</p>
+                              <p className="text-[10px] text-slate-600 mb-1.5">Select Data Acquisition Mode</p>
+                              <div className="grid grid-cols-2 gap-2 mb-3">
+                                <button className="py-2 px-3 bg-blue-600 text-white text-xs font-medium rounded-md">
+                                  <div className="font-medium text-xs">Standard</div>
+                                  <div className="text-[9px] opacity-80">On Stop: 5 minutes</div>
+                                  <div className="text-[9px] opacity-80">On Moving: 30 seconds</div>
+                                </button>
+                                <button className="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-md transition-colors">
+                                  <div className="font-medium text-xs">High Frequency</div>
+                                  <div className="text-[9px] text-slate-500">On Stop: 30 seconds</div>
+                                  <div className="text-[9px] text-slate-500">On Moving: 10 seconds</div>
+                                </button>
+                              </div>
+                              <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                <Settings className="w-3 h-3" />
+                                Apply to Device
+                              </button>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Speed Source */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-0.5">Speed Source</h4>
-                          <p className="text-[10px] text-slate-500 mb-3">GNSS uses satellite positioning, while OBD/CAN reads from the vehicle's computer</p>
-                          
-                          <div className="grid grid-cols-2 gap-2">
-                            <button className="py-2 px-3 bg-blue-600 text-white text-xs font-medium rounded-md">
-                              GNSS
-                            </button>
-                            <button className="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-md transition-colors">
-                              OBD/CAN
-                            </button>
-                          </div>
-                        </div>
+                          {/* Speed Source */}
+                          <AccordionItem value="speed-source" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Gauge className="w-3.5 h-3.5 text-blue-500" />
+                                <span className="font-medium text-sm text-slate-800">Speed Source</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <p className="text-[10px] text-slate-500 mb-3">GNSS uses satellite positioning, while OBD/CAN reads from the vehicle's computer</p>
+                              <div className="grid grid-cols-2 gap-2">
+                                <button className="py-2 px-3 bg-blue-600 text-white text-xs font-medium rounded-md">
+                                  GNSS
+                                </button>
+                                <button className="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-md transition-colors">
+                                  OBD/CAN
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Sleep Mode */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Sleep Mode</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Mode</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>Sleep</option>
-                                <option>Deep Sleep</option>
-                                <option>Ultra Sleep</option>
-                              </select>
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Timeout (minutes)</label>
-                              <input type="number" defaultValue="60" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Periodic Wake-up (minutes, 0 = off)</label>
-                              <input type="number" defaultValue="10" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">Bluetooth in Sleep</span>
-                              <Switch />
-                            </div>
-                            
-                            <p className="text-[10px] text-slate-500">This will save the configuration and immediately apply it to the device</p>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Apply Sleep Mode
-                            </button>
-                          </div>
-                        </div>
+                          {/* Sleep Mode */}
+                          <AccordionItem value="sleep-mode" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Clock className="w-3.5 h-3.5 text-purple-500" />
+                                <span className="font-medium text-sm text-slate-800">Sleep Mode</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Mode</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>Sleep</option>
+                                    <option>Deep Sleep</option>
+                                    <option>Ultra Sleep</option>
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Timeout (minutes)</label>
+                                  <input type="number" defaultValue="60" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Periodic Wake-up (minutes, 0 = off)</label>
+                                  <input type="number" defaultValue="10" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">Bluetooth in Sleep</span>
+                                  <Switch />
+                                </div>
+                                <p className="text-[10px] text-slate-500">This will save the configuration and immediately apply it to the device</p>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Apply Sleep Mode
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Ignition Detection */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Ignition Detection</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Ignition Source</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>DIN1</option>
-                                <option>Power Voltage</option>
-                                <option>Accelerometer</option>
-                                <option>Movement</option>
-                              </select>
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">High Voltage (mV)</label>
-                              <input type="number" defaultValue="6000" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Low Voltage (mV)</label>
-                              <input type="number" defaultValue="1000" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save to Device
-                            </button>
-                          </div>
-                        </div>
+                          {/* Ignition Detection */}
+                          <AccordionItem value="ignition" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Key className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="font-medium text-sm text-slate-800">Ignition Detection</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Ignition Source</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>DIN1</option>
+                                    <option>Power Voltage</option>
+                                    <option>Accelerometer</option>
+                                    <option>Movement</option>
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">High Voltage (mV)</label>
+                                  <input type="number" defaultValue="6000" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Low Voltage (mV)</label>
+                                  <input type="number" defaultValue="1000" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save to Device
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* LED & Battery */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">LED & Battery</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">LED Indication</span>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Battery Charge Mode</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>On Need</option>
-                                <option>Always</option>
-                                <option>Never</option>
-                              </select>
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save to Device
-                            </button>
-                          </div>
-                        </div>
+                          {/* LED & Battery */}
+                          <AccordionItem value="led-battery" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Battery className="w-3.5 h-3.5 text-green-500" />
+                                <span className="font-medium text-sm text-slate-800">LED & Battery</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">LED Indication</span>
+                                  <Switch defaultChecked />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Battery Charge Mode</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>On Need</option>
+                                    <option>Always</option>
+                                    <option>Never</option>
+                                  </select>
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save to Device
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Bluetooth */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Bluetooth</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Bluetooth Radio</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>Disable</option>
-                                <option>Enable (Hidden)</option>
-                                <option>Enable (Visible)</option>
-                              </select>
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save to Device
-                            </button>
-                          </div>
-                        </div>
+                          {/* Bluetooth */}
+                          <AccordionItem value="bluetooth" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Wifi className="w-3.5 h-3.5 text-blue-400" />
+                                <span className="font-medium text-sm text-slate-800">Bluetooth</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Bluetooth Radio</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>Disable</option>
+                                    <option>Enable (Hidden)</option>
+                                    <option>Enable (Visible)</option>
+                                  </select>
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save to Device
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                       </TabsContent>
 
                       {/* Network Tab */}
-                      <TabsContent value="network" className="mt-3 space-y-3">
-                        {/* SIM APN Configuration */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-0.5">SIM APN Configuration</h4>
-                          <p className="text-[10px] text-slate-500 mb-3">Configure the APN settings for the device's cellular connection</p>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">APN</label>
-                              <input type="text" placeholder="e.g., telstra.internet" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div className="grid grid-cols-2 gap-2">
-                              <div>
-                                <label className="text-[10px] text-slate-600 block mb-1">Username (Optional)</label>
-                                <input type="text" placeholder="APN username" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                      <TabsContent value="network" className="mt-3">
+                        <Accordion type="multiple" className="space-y-2">
+                          {/* SIM APN Configuration */}
+                          <AccordionItem value="apn" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Signal className="w-3.5 h-3.5 text-blue-500" />
+                                <span className="font-medium text-sm text-slate-800">SIM APN Configuration</span>
                               </div>
-                              <div>
-                                <label className="text-[10px] text-slate-600 block mb-1">Password (Optional)</label>
-                                <input type="password" placeholder="APN password" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                              </div>
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Apply APN Settings
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Ajax Integration */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Ajax Integration</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div className="flex items-center justify-between py-1">
-                              <div>
-                                <span className="text-xs font-medium text-slate-700">Enable Ajax Integration</span>
-                                <p className="text-[10px] text-slate-500">Toggle on to enable panic button functionality with Ajax systems</p>
-                              </div>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <div className="pt-2 border-t border-slate-100">
-                              <h5 className="text-xs font-medium text-slate-800 mb-0.5">Ajax Configuration</h5>
-                              <p className="text-[10px] text-slate-500 mb-3">Please enter your Ajax USER account information</p>
-                              
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <p className="text-[10px] text-slate-500 mb-3">Configure the APN settings for the device's cellular connection</p>
                               <div className="space-y-2.5">
                                 <div>
-                                  <label className="text-[10px] text-slate-600 block mb-1">Username/Email</label>
-                                  <input type="email" placeholder="Ajax username or email" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                  <label className="text-[10px] text-slate-600 block mb-1">APN</label>
+                                  <input type="text" placeholder="e.g., telstra.internet" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
                                 </div>
-                                
-                                <div>
-                                  <label className="text-[10px] text-slate-600 block mb-1">Password</label>
-                                  <input type="password" placeholder="Ajax password" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[10px] text-slate-600 block mb-1">Username (Optional)</label>
+                                    <input type="text" placeholder="APN username" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                  </div>
+                                  <div>
+                                    <label className="text-[10px] text-slate-600 block mb-1">Password (Optional)</label>
+                                    <input type="password" placeholder="APN password" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                  </div>
                                 </div>
-                                
-                                <div className="bg-slate-50 rounded-md p-2 flex items-center justify-between">
-                                  <span className="text-xs text-slate-600">Verify credentials to continue</span>
-                                  <button className="px-3 py-1 text-xs font-medium text-slate-600 hover:text-slate-800 transition-colors">
-                                    Verify
-                                  </button>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Apply APN Settings
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+
+                          {/* Ajax Integration */}
+                          <AccordionItem value="ajax" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Shield className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="font-medium text-sm text-slate-800">Ajax Integration</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div className="flex items-center justify-between py-1">
+                                  <div>
+                                    <span className="text-xs font-medium text-slate-700">Enable Ajax Integration</span>
+                                    <p className="text-[10px] text-slate-500">Toggle on to enable panic button functionality with Ajax systems</p>
+                                  </div>
+                                  <Switch defaultChecked />
+                                </div>
+                                <div className="pt-2 border-t border-slate-100">
+                                  <h5 className="text-xs font-medium text-slate-800 mb-0.5">Ajax Configuration</h5>
+                                  <p className="text-[10px] text-slate-500 mb-3">Please enter your Ajax USER account information</p>
+                                  <div className="space-y-2.5">
+                                    <div>
+                                      <label className="text-[10px] text-slate-600 block mb-1">Username/Email</label>
+                                      <input type="email" placeholder="Ajax username or email" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                    </div>
+                                    <div>
+                                      <label className="text-[10px] text-slate-600 block mb-1">Password</label>
+                                      <input type="password" placeholder="Ajax password" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                    </div>
+                                    <div className="bg-slate-50 rounded-md p-2 flex items-center justify-between">
+                                      <span className="text-xs text-slate-600">Verify credentials to continue</span>
+                                      <button className="px-3 py-1 text-xs font-medium text-slate-600 hover:text-slate-800 transition-colors">
+                                        Verify
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
+                            </AccordionContent>
+                          </AccordionItem>
 
-                        {/* Server Configuration */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Server Configuration</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Primary Server</label>
-                              <input type="text" defaultValue="gps.traceportal.net" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Port</label>
-                              <input type="number" defaultValue="5027" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Protocol</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>TCP</option>
-                                <option>UDP</option>
-                              </select>
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save Server Settings
-                            </button>
-                          </div>
-                        </div>
+                          {/* Server Configuration */}
+                          <AccordionItem value="server" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Wifi className="w-3.5 h-3.5 text-purple-500" />
+                                <span className="font-medium text-sm text-slate-800">Server Configuration</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Primary Server</label>
+                                  <input type="text" defaultValue="gps.traceportal.net" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Port</label>
+                                  <input type="number" defaultValue="5027" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Protocol</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>TCP</option>
+                                    <option>UDP</option>
+                                  </select>
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save Server Settings
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                       </TabsContent>
 
                       {/* Location Tab */}
-                      <TabsContent value="location" className="mt-3 space-y-3">
-                        {/* GNSS Settings */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">GNSS Settings</h4>
-                          
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">Enable GPS</span>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">Enable GLONASS</span>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">Enable Galileo</span>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <div className="flex items-center justify-between py-1">
-                              <span className="text-xs text-slate-700">Enable BeiDou</span>
-                              <Switch />
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save GNSS Settings
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Movement Detection */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Movement Detection</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Movement Source</label>
-                              <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
-                                <option>Ignition</option>
-                                <option>Accelerometer</option>
-                                <option>GNSS</option>
-                              </select>
-                            </div>
-                            
-                            <div>
-                              <label className="text-[10px] text-slate-600 block mb-1">Minimum Speed (km/h)</label>
-                              <input type="number" defaultValue="5" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save Movement Settings
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Static Navigation */}
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-3">Static Navigation</h4>
-                          
-                          <div className="space-y-2.5">
-                            <div className="flex items-center justify-between py-1">
-                              <div>
-                                <span className="text-xs font-medium text-slate-700">Enable Static Navigation</span>
-                                <p className="text-[10px] text-slate-500">Filter out GPS drift when the vehicle is stationary</p>
+                      <TabsContent value="location" className="mt-3">
+                        <Accordion type="multiple" className="space-y-2">
+                          {/* GNSS Settings */}
+                          <AccordionItem value="gnss" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Satellite className="w-3.5 h-3.5 text-blue-500" />
+                                <span className="font-medium text-sm text-slate-800">GNSS Settings</span>
                               </div>
-                              <Switch defaultChecked />
-                            </div>
-                            
-                            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                              <Settings className="w-3 h-3" />
-                              Save to Device
-                            </button>
-                          </div>
-                        </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">Enable GPS</span>
+                                  <Switch defaultChecked />
+                                </div>
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">Enable GLONASS</span>
+                                  <Switch defaultChecked />
+                                </div>
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">Enable Galileo</span>
+                                  <Switch defaultChecked />
+                                </div>
+                                <div className="flex items-center justify-between py-1">
+                                  <span className="text-xs text-slate-700">Enable BeiDou</span>
+                                  <Switch />
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save GNSS Settings
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+
+                          {/* Movement Detection */}
+                          <AccordionItem value="movement" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Route className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="font-medium text-sm text-slate-800">Movement Detection</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Movement Source</label>
+                                  <select className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs">
+                                    <option>Ignition</option>
+                                    <option>Accelerometer</option>
+                                    <option>GNSS</option>
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-[10px] text-slate-600 block mb-1">Minimum Speed (km/h)</label>
+                                  <input type="number" defaultValue="5" className="w-full px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-md text-xs" />
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save Movement Settings
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+
+                          {/* Static Navigation */}
+                          <AccordionItem value="static-nav" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <MapPin className="w-3.5 h-3.5 text-red-500" />
+                                <span className="font-medium text-sm text-slate-800">Static Navigation</span>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <div className="space-y-2.5">
+                                <div className="flex items-center justify-between py-1">
+                                  <div>
+                                    <span className="text-xs font-medium text-slate-700">Enable Static Navigation</span>
+                                    <p className="text-[10px] text-slate-500">Filter out GPS drift when the vehicle is stationary</p>
+                                  </div>
+                                  <Switch defaultChecked />
+                                </div>
+                                <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                  <Settings className="w-3 h-3" />
+                                  Save to Device
+                                </button>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                       </TabsContent>
 
                       {/* Geofence Tab */}
-                      <TabsContent value="geofence" className="mt-3 space-y-3">
-                        <div className="bg-white rounded-lg border border-slate-200 p-3">
-                          <h4 className="font-medium text-sm text-slate-800 mb-0.5">Device Geofences</h4>
-                          <p className="text-[10px] text-slate-500 mb-3">Configure geofences stored directly on the device for offline alerts</p>
-                          
-                          <div className="space-y-2">
-                            {[1, 2, 3, 4, 5].map((zone) => (
-                              <div key={zone} className="bg-slate-50 rounded-md p-2 border border-slate-100">
-                                <div className="flex items-center justify-between mb-1.5">
-                                  <span className="text-xs font-medium text-slate-700">Zone {zone}</span>
-                                  <Switch />
-                                </div>
-                                <div className="grid grid-cols-2 gap-1.5">
-                                  <input type="text" placeholder="Latitude" className="px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
-                                  <input type="text" placeholder="Longitude" className="px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
-                                </div>
-                                <input type="text" placeholder="Radius (m)" className="w-full mt-1.5 px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
+                      <TabsContent value="geofence" className="mt-3">
+                        <Accordion type="multiple" className="space-y-2">
+                          <AccordionItem value="device-geofences" className="bg-white rounded-lg border border-slate-200 px-3">
+                            <AccordionTrigger className="hover:no-underline py-2.5">
+                              <div className="flex items-center gap-2">
+                                <Navigation className="w-3.5 h-3.5 text-blue-500" />
+                                <span className="font-medium text-sm text-slate-800">Device Geofences</span>
                               </div>
-                            ))}
-                          </div>
-                          
-                          <button className="w-full mt-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
-                            <Settings className="w-3 h-3" />
-                            Save Geofences to Device
-                          </button>
-                        </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pb-3">
+                              <p className="text-[10px] text-slate-500 mb-3">Configure geofences stored directly on the device for offline alerts</p>
+                              <div className="space-y-2">
+                                {[1, 2, 3, 4, 5].map((zone) => (
+                                  <div key={zone} className="bg-slate-50 rounded-md p-2 border border-slate-100">
+                                    <div className="flex items-center justify-between mb-1.5">
+                                      <span className="text-xs font-medium text-slate-700">Zone {zone}</span>
+                                      <Switch />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-1.5">
+                                      <input type="text" placeholder="Latitude" className="px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
+                                      <input type="text" placeholder="Longitude" className="px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
+                                    </div>
+                                    <input type="text" placeholder="Radius (m)" className="w-full mt-1.5 px-2 py-1 bg-white border border-slate-200 rounded text-[10px]" />
+                                  </div>
+                                ))}
+                              </div>
+                              <button className="w-full mt-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md flex items-center justify-center gap-1.5 transition-colors">
+                                <Settings className="w-3 h-3" />
+                                Save Geofences to Device
+                              </button>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
 
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-2.5">
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-2.5 mt-3">
                           <p className="text-[10px] text-amber-800">
                             <strong>Note:</strong> Device geofences are stored locally on the tracker and work even without server connection.
                           </p>
