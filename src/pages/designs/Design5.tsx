@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History, CreditCard, AlertTriangle, LayoutGrid, ChevronDown } from 'lucide-react';
+import { ArrowLeft, MapPin, Gauge, Satellite, Signal, Battery, Car, Ship, Caravan, Bell, Settings, LogOut, Search, ChevronRight, Zap, Key, Wifi, PlugZap, Route, Clock, Thermometer, Fuel, Info, Shield, Truck, HelpCircle, RefreshCw, Power, Lock, Unlock, Volume2, MapPinned, History, CreditCard, AlertTriangle, LayoutGrid, ChevronDown, Navigation } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useAuth } from '@/hooks/useAuth';
 import { useDevices } from '@/hooks/useDevices';
@@ -655,68 +656,418 @@ const Design5 = () => {
 
                 {/* Control Tab Content */}
                 <TabsContent value="control" className="mt-0 p-5">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-semibold text-slate-800 mb-4">Device Controls</h3>
-                      <p className="text-sm text-slate-500 mb-6">Send commands to your device remotely</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                          <Power className="w-6 h-6 text-emerald-600" />
+                  <div className="space-y-4">
+                    {/* Sub-tabs for control sections */}
+                    <Tabs defaultValue="config" className="w-full">
+                      <TabsList className="w-full grid grid-cols-4 bg-slate-100 p-1 rounded-lg">
+                        <TabsTrigger value="config" className="flex items-center gap-2 text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                          <Settings className="w-3.5 h-3.5" />
+                          Config
+                        </TabsTrigger>
+                        <TabsTrigger value="network" className="flex items-center gap-2 text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                          <Signal className="w-3.5 h-3.5" />
+                          Network
+                        </TabsTrigger>
+                        <TabsTrigger value="location" className="flex items-center gap-2 text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                          <MapPin className="w-3.5 h-3.5" />
+                          Location
+                        </TabsTrigger>
+                        <TabsTrigger value="geofence" className="flex items-center gap-2 text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                          <Navigation className="w-3.5 h-3.5" />
+                          Geofence
+                        </TabsTrigger>
+                      </TabsList>
+
+                      {/* Config Tab */}
+                      <TabsContent value="config" className="mt-4 space-y-4">
+                        {/* Restart Device */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-2">Restart Device</h4>
+                          <button className="w-full py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                            <RefreshCw className="w-4 h-4" />
+                            Restart Device
+                          </button>
+                          <p className="text-xs text-slate-500 mt-2">This will perform a soft reset of the device</p>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Engine On</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                          <Power className="w-6 h-6 text-red-600" />
+
+                        {/* Data Acquisition */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Zap className="w-4 h-4 text-slate-600" />
+                            <h4 className="font-semibold text-slate-800">Data Acquisition</h4>
+                          </div>
+                          <p className="text-xs text-slate-500 mb-4">Configure how often the device sends location data to the portal</p>
+                          
+                          <p className="text-xs text-slate-600 mb-2">Select Data Acquisition Mode</p>
+                          <div className="grid grid-cols-2 gap-3 mb-4">
+                            <button className="py-3 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg">
+                              <div className="font-semibold">Standard</div>
+                              <div className="text-xs opacity-80">On Stop: 5 minutes</div>
+                              <div className="text-xs opacity-80">On Moving: 30 seconds</div>
+                            </button>
+                            <button className="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm rounded-lg transition-colors">
+                              <div className="font-semibold">High Frequency</div>
+                              <div className="text-xs text-slate-500">On Stop: 30 seconds</div>
+                              <div className="text-xs text-slate-500">On Moving: 10 seconds</div>
+                            </button>
+                          </div>
+                          
+                          <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                            <Settings className="w-4 h-4" />
+                            Apply to Device
+                          </button>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Engine Off</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                          <Lock className="w-6 h-6 text-blue-600" />
+
+                        {/* Speed Source */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-1">Speed Source</h4>
+                          <p className="text-xs text-slate-500 mb-4">GNSS uses satellite positioning, while OBD/CAN reads from the vehicle's computer</p>
+                          
+                          <div className="grid grid-cols-2 gap-3">
+                            <button className="py-2.5 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg">
+                              GNSS
+                            </button>
+                            <button className="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors">
+                              OBD/CAN
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Lock Doors</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                          <Unlock className="w-6 h-6 text-amber-600" />
+
+                        {/* Sleep Mode */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Sleep Mode</h4>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Mode</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>Sleep</option>
+                                <option>Deep Sleep</option>
+                                <option>Ultra Sleep</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Timeout (minutes)</label>
+                              <input type="number" defaultValue="60" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Periodic Wake-up (minutes, 0 = off)</label>
+                              <input type="number" defaultValue="10" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">Bluetooth in Sleep</span>
+                              <Switch />
+                            </div>
+                            
+                            <p className="text-xs text-slate-500">This will save the configuration and immediately apply it to the device</p>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Apply Sleep Mode
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Unlock Doors</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                          <Volume2 className="w-6 h-6 text-purple-600" />
+
+                        {/* Ignition Detection */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Ignition Detection</h4>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Ignition Source</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>DIN1</option>
+                                <option>Power Voltage</option>
+                                <option>Accelerometer</option>
+                                <option>Movement</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">High Voltage (mV)</label>
+                              <input type="number" defaultValue="6000" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Low Voltage (mV)</label>
+                              <input type="number" defaultValue="1000" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save to Device
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Sound Horn</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center">
-                          <MapPinned className="w-6 h-6 text-cyan-600" />
+
+                        {/* LED & Battery */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">LED & Battery</h4>
+                          
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">LED Indication</span>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Battery Charge Mode</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>On Need</option>
+                                <option>Always</option>
+                                <option>Never</option>
+                              </select>
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save to Device
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Locate Now</span>
-                      </button>
-                      
-                      <button className="flex flex-col items-center gap-3 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-colors">
-                        <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
-                          <RefreshCw className="w-6 h-6 text-slate-600" />
+
+                        {/* Bluetooth */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Bluetooth</h4>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Bluetooth Radio</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>Disable</option>
+                                <option>Enable (Hidden)</option>
+                                <option>Enable (Visible)</option>
+                              </select>
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save to Device
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-slate-700">Refresh Status</span>
-                      </button>
-                    </div>
-                    
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-6">
-                      <p className="text-sm text-amber-800">
-                        <strong>Note:</strong> Commands may take up to 30 seconds to be executed depending on device connectivity.
-                      </p>
-                    </div>
+                      </TabsContent>
+
+                      {/* Network Tab */}
+                      <TabsContent value="network" className="mt-4 space-y-4">
+                        {/* SIM APN Configuration */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-1">SIM APN Configuration</h4>
+                          <p className="text-xs text-slate-500 mb-4">Configure the APN settings for the device's cellular connection</p>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">APN</label>
+                              <input type="text" placeholder="e.g., telstra.internet" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-xs text-slate-600 block mb-1.5">Username (Optional)</label>
+                                <input type="text" placeholder="APN username" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                              </div>
+                              <div>
+                                <label className="text-xs text-slate-600 block mb-1.5">Password (Optional)</label>
+                                <input type="password" placeholder="APN password" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                              </div>
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Apply APN Settings
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Ajax Integration */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Ajax Integration</h4>
+                          
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between py-2">
+                              <div>
+                                <span className="text-sm font-medium text-slate-700">Enable Ajax Integration</span>
+                                <p className="text-xs text-slate-500">Toggle on to enable panic button functionality with Ajax systems</p>
+                              </div>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <div className="pt-2 border-t border-slate-100">
+                              <h5 className="text-sm font-medium text-slate-800 mb-1">Ajax Configuration</h5>
+                              <p className="text-xs text-slate-500 mb-4">Please enter your Ajax USER account information</p>
+                              
+                              <div className="space-y-4">
+                                <div>
+                                  <label className="text-xs text-slate-600 block mb-1.5">Username/Email</label>
+                                  <input type="email" placeholder="Ajax username or email" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                                </div>
+                                
+                                <div>
+                                  <label className="text-xs text-slate-600 block mb-1.5">Password</label>
+                                  <input type="password" placeholder="Ajax password" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                                </div>
+                                
+                                <div className="bg-slate-50 rounded-lg p-3 flex items-center justify-between">
+                                  <span className="text-sm text-slate-600">Verify credentials to continue</span>
+                                  <button className="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors">
+                                    Verify
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Server Configuration */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Server Configuration</h4>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Primary Server</label>
+                              <input type="text" defaultValue="gps.traceportal.net" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Port</label>
+                              <input type="number" defaultValue="5027" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Protocol</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>TCP</option>
+                                <option>UDP</option>
+                              </select>
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save Server Settings
+                            </button>
+                          </div>
+                        </div>
+                      </TabsContent>
+
+                      {/* Location Tab */}
+                      <TabsContent value="location" className="mt-4 space-y-4">
+                        {/* GNSS Settings */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">GNSS Settings</h4>
+                          
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">Enable GPS</span>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">Enable GLONASS</span>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">Enable Galileo</span>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <div className="flex items-center justify-between py-2">
+                              <span className="text-sm text-slate-700">Enable BeiDou</span>
+                              <Switch />
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save GNSS Settings
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Movement Detection */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Movement Detection</h4>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Movement Source</label>
+                              <select className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm">
+                                <option>Ignition</option>
+                                <option>Accelerometer</option>
+                                <option>GNSS</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs text-slate-600 block mb-1.5">Minimum Speed (km/h)</label>
+                              <input type="number" defaultValue="5" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm" />
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save Movement Settings
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Static Navigation */}
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-4">Static Navigation</h4>
+                          
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between py-2">
+                              <div>
+                                <span className="text-sm font-medium text-slate-700">Enable Static Navigation</span>
+                                <p className="text-xs text-slate-500">Filter out GPS drift when the vehicle is stationary</p>
+                              </div>
+                              <Switch defaultChecked />
+                            </div>
+                            
+                            <button className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                              <Settings className="w-4 h-4" />
+                              Save to Device
+                            </button>
+                          </div>
+                        </div>
+                      </TabsContent>
+
+                      {/* Geofence Tab */}
+                      <TabsContent value="geofence" className="mt-4 space-y-4">
+                        <div className="bg-white rounded-xl border border-slate-200 p-4">
+                          <h4 className="font-semibold text-slate-800 mb-1">Device Geofences</h4>
+                          <p className="text-xs text-slate-500 mb-4">Configure geofences stored directly on the device for offline alerts</p>
+                          
+                          <div className="space-y-3">
+                            {[1, 2, 3, 4, 5].map((zone) => (
+                              <div key={zone} className="bg-slate-50 rounded-lg p-3 border border-slate-100">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-sm font-medium text-slate-700">Zone {zone}</span>
+                                  <Switch />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <input type="text" placeholder="Latitude" className="px-2 py-1.5 bg-white border border-slate-200 rounded text-xs" />
+                                  <input type="text" placeholder="Longitude" className="px-2 py-1.5 bg-white border border-slate-200 rounded text-xs" />
+                                </div>
+                                <input type="text" placeholder="Radius (m)" className="w-full mt-2 px-2 py-1.5 bg-white border border-slate-200 rounded text-xs" />
+                              </div>
+                            ))}
+                          </div>
+                          
+                          <button className="w-full mt-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors">
+                            <Settings className="w-4 h-4" />
+                            Save Geofences to Device
+                          </button>
+                        </div>
+
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                          <p className="text-sm text-amber-800">
+                            <strong>Note:</strong> Device geofences are stored locally on the tracker and work even without server connection.
+                          </p>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
                   </div>
                 </TabsContent>
 
