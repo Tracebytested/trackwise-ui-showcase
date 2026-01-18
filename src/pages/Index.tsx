@@ -1,28 +1,22 @@
 import { Link } from 'react-router-dom';
-import { Cpu, Compass, Moon, Sparkles, Zap, Waves, Terminal, Sun, Leaf, Layers, Palette, LayoutDashboard, PanelLeftClose, Briefcase, Flame, Radio, Diamond, Square, Hexagon } from 'lucide-react';
+import { Cpu, Compass, Sparkles, Zap, Terminal, Sun, Layers, LayoutDashboard, PanelLeft, Flame, Crown, Diamond, Hexagon } from 'lucide-react';
 
 const Index = () => {
   const designs = [
-    { id: 1, name: 'Midnight Aurora', description: 'Dark purple/cyan theme with sidebar navigation', gradient: 'from-purple-600 to-cyan-500', icon: Sparkles },
-    { id: 2, name: 'Arctic Frost', description: 'Clean light theme with collapsible sidebar', gradient: 'from-sky-400 to-blue-600', icon: Compass },
-    { id: 3, name: 'Emerald Forest', description: 'Dark green theme with device cards grid', gradient: 'from-emerald-500 to-teal-600', icon: Leaf },
-    { id: 4, name: 'Sunset Blaze', description: 'Warm orange theme with top navigation', gradient: 'from-orange-500 to-red-500', icon: Sun },
+    { id: 1, name: 'Ocean Blue', description: 'Top nav with cool blue tones', gradient: 'from-blue-500 to-cyan-500', icon: Cpu },
+    { id: 2, name: 'Emerald Dashboard', description: 'Left sidebar with green accent', gradient: 'from-emerald-500 to-green-600', icon: Cpu },
+    { id: 3, name: 'Violet Fusion', description: 'Top nav with purple gradient', gradient: 'from-violet-500 to-purple-600', icon: Layers },
+    { id: 4, name: 'Sunset Blaze', description: 'Warm orange top nav theme', gradient: 'from-orange-500 to-red-500', icon: Sun },
     { id: 5, name: 'Blue Sidebar Pro', description: 'User tracking dashboard (Protected)', gradient: 'from-blue-600 to-blue-800', icon: Compass, user: true },
-    { id: 6, name: 'Neon Cyber', description: 'Cyberpunk pink/cyan with minimal sidebar', gradient: 'from-pink-500 to-cyan-400', icon: Zap },
-    { id: 7, name: 'Monochrome Minimal', description: 'Clean black and white brutalist', gradient: 'from-gray-800 to-black', icon: Moon },
-    { id: 8, name: 'Rose Gold Luxury', description: 'Premium rose gold elegant styling', gradient: 'from-rose-400 to-pink-500', icon: Sparkles },
-    { id: 9, name: 'Terminal Tech', description: 'Hacker-inspired green terminal', gradient: 'from-green-500 to-green-700', icon: Terminal },
-    { id: 10, name: 'Ocean Breeze', description: 'Calm blue ocean theme with waves', gradient: 'from-cyan-400 to-blue-600', icon: Waves },
-    { id: 11, name: 'Glassmorphism', description: 'Frosted glass effect with blur', gradient: 'from-indigo-500 to-purple-600', icon: Layers },
-    { id: 12, name: 'Gradient Cards', description: 'Colorful gradient card-based layout', gradient: 'from-violet-500 to-purple-600', icon: Palette },
-    { id: 13, name: 'Dashboard Tabs', description: 'Multi-tab interface with detailed views', gradient: 'from-indigo-500 to-blue-600', icon: LayoutDashboard },
-    { id: 14, name: 'Split View', description: 'Master-detail layout with device panel', gradient: 'from-slate-600 to-indigo-600', icon: PanelLeftClose },
-    { id: 15, name: 'Corporate Clean', description: 'Professional enterprise design', gradient: 'from-blue-800 to-blue-900', icon: Briefcase },
-    { id: 16, name: 'Dark Gradient', description: 'Rich dark theme with colorful gradients', gradient: 'from-orange-500 to-pink-600', icon: Flame },
-    { id: 17, name: 'Retro 80s', description: 'Neon synthwave retro theme', gradient: 'from-pink-500 to-purple-600', icon: Radio },
-    { id: 18, name: 'Art Deco', description: 'Elegant gold and black styling', gradient: 'from-yellow-600 to-amber-700', icon: Diamond },
-    { id: 19, name: 'Neo Brutalist', description: 'Bold brutalist with harsh shadows', gradient: 'from-yellow-400 to-yellow-500', icon: Square },
-    { id: 20, name: 'Soft Pastel', description: 'Gentle pastel colors with soft shadows', gradient: 'from-purple-400 to-pink-400', icon: Hexagon },
+    { id: 6, name: 'Teal Professional', description: 'Left sidebar with teal accents', gradient: 'from-teal-500 to-teal-600', icon: PanelLeft },
+    { id: 7, name: 'Rose Glow', description: 'Top nav with pink/rose gradient', gradient: 'from-rose-500 to-pink-600', icon: Zap },
+    { id: 8, name: 'Slate Minimal', description: 'Clean sidebar with slate tones', gradient: 'from-slate-600 to-slate-800', icon: Hexagon },
+    { id: 9, name: 'Amber Fire', description: 'Top nav with warm amber tones', gradient: 'from-amber-500 to-orange-600', icon: Flame },
+    { id: 10, name: 'Royal Purple', description: 'Left sidebar with deep purple', gradient: 'from-purple-500 to-purple-700', icon: Crown },
+    { id: 11, name: 'Matrix Green', description: 'Dark terminal with neon green', gradient: 'from-green-400 to-green-600', icon: Terminal },
+    { id: 12, name: 'Sky Blue', description: 'Light sidebar with sky blue', gradient: 'from-sky-400 to-sky-600', icon: Diamond },
+    { id: 13, name: 'Split View', description: 'Multi-tab dashboard interface', gradient: 'from-indigo-500 to-indigo-700', icon: LayoutDashboard },
+    { id: 14, name: 'Midnight Blue', description: 'Deep navy with electric blue', gradient: 'from-blue-400 to-indigo-500', icon: Sparkles },
   ];
 
   return (
@@ -41,7 +35,7 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto p-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">20 Installer Dashboard Designs</h1>
+          <h1 className="text-4xl font-bold mb-4">14 Installer Dashboard Designs</h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Device registration, configuration, user assignment, and system monitoring interfaces.
           </p>
