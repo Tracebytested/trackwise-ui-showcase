@@ -1,180 +1,165 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Home, Wrench, Cpu, Bell, Settings, Building2, HelpCircle, LogOut,
-  Plus, Search, Moon, Wifi, WifiOff, ArrowLeft, RefreshCw, UserPlus, 
-  Mail, BarChart3, Cog, Terminal, Code, Database, Server
+  Home, Wrench, Cpu, Bell, Settings, Plus, Search, Wifi, WifiOff, 
+  ArrowLeft, RefreshCw, UserPlus, Mail, BarChart3, Cog, Flame
 } from 'lucide-react';
 
-// Terminal Tech - Developer/Hacker installer theme
+// Amber Fire - Top nav with warm amber tones (inspired by Design4 layout)
 const Design9 = () => {
   const devices = [
-    { id: 1, name: 'UNIT_FMC880', imei: '861076080724964', status: 'ONLINE', network: 'SIM', assigned: 'kilaris56@gmail.com', lastSeen: '2026-01-18T14:49:18', satFix: 55 },
-    { id: 2, name: 'UNIT_TRITON', imei: '865124071241444', status: 'SLEEP', network: 'IDLE', assigned: 'kilaris10@hotmail.com', lastSeen: '2026-01-11T19:26:01', satFix: 0 },
-    { id: 3, name: 'UNIT_TOWER1', imei: '861076080733585', status: 'ONLINE', network: 'SIM', assigned: 'kilaris10@hotmail.com', lastSeen: '2026-01-18T14:50:18', satFix: 55 },
-    { id: 4, name: 'UNIT_CARAVAN', imei: '865124071449005', status: 'OFFLINE', network: 'DISC', assigned: 'kilaris10@hotmail.com', lastSeen: '2025-12-14T23:59:09', satFix: 17 },
-    { id: 5, name: 'UNIT_TEST650', imei: '865124070737665', status: 'OFFLINE', network: 'DISC', assigned: null, lastSeen: '2025-11-26T01:23:44', satFix: 31 },
+    { id: 1, name: 'Nick FMC880', imei: '861076080724964', model: 'FMC880', status: 'online', network: 'sim', assigned: 'kilaris56@gmail.com', lastSeen: '18/01/2026, 14:49:18', satFix: 55 },
+    { id: 2, name: '2021 Mitsubishi Triton', imei: '865124071241444', model: 'FMC003', status: 'sleeping', network: 'sleeping', assigned: 'kilaris10@hotmail.com', lastSeen: '11/01/2026, 19:26:01', satFix: 0 },
+    { id: 3, name: 'Site Security Tower 1', imei: '861076080733585', model: 'FMC650', status: 'online', network: 'sim', assigned: 'kilaris10@hotmail.com', lastSeen: '18/01/2026, 14:50:18', satFix: 55 },
+    { id: 4, name: 'Caravan', imei: '865124071449005', model: 'FMC003', status: 'offline', network: 'disconnected', assigned: null, lastSeen: '14/12/2025, 23:59:09', satFix: 17 },
   ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'ONLINE': return 'text-green-400';
-      case 'SLEEP': return 'text-yellow-400';
-      case 'OFFLINE': return 'text-red-400';
-      default: return 'text-gray-400';
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-green-400 font-mono">
-      <div className="fixed inset-0 pointer-events-none bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,255,0,0.03)_2px,rgba(0,255,0,0.03)_4px)]"></div>
-
-      <div className="relative flex">
-        {/* Sidebar */}
-        <aside className="w-56 min-h-screen bg-[#0d0d0d] border-r border-green-900/30 flex flex-col">
-          <div className="p-4 border-b border-green-900/30">
-            <div className="flex items-center gap-2">
-              <Terminal className="w-5 h-5 text-green-500" />
-              <span className="text-green-500">trace@installer:~$</span>
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 via-amber-950/30 to-zinc-900 text-white">
+      {/* Top Navigation */}
+      <header className="bg-zinc-900/80 backdrop-blur-lg border-b border-amber-500/20 sticky top-0 z-50">
+        <div className="flex items-center justify-between px-6 h-16">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+                <Flame className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="font-bold">TRACE</span>
+                <span className="text-amber-400 text-xs ml-2">Installer</span>
+              </div>
             </div>
+            
+            <nav className="flex items-center gap-1">
+              {[
+                { icon: Home, label: 'Home' },
+                { icon: Wrench, label: 'Setup' },
+                { icon: Cpu, label: 'Devices', active: true },
+                { icon: Bell, label: 'Alerts', badge: 3 },
+                { icon: Settings, label: 'Settings' },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
+                    item.active ? 'bg-amber-500/20 text-amber-400' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                  {item.badge && <span className="bg-orange-500 text-xs px-1.5 py-0.5 rounded-full">{item.badge}</span>}
+                </button>
+              ))}
+            </nav>
           </div>
 
-          <nav className="flex-1 p-2">
-            <p className="text-xs text-green-700 px-3 py-2">// NAVIGATION</p>
-            {[
-              { icon: Database, label: './dashboard' },
-              { icon: Wrench, label: './setup' },
-              { icon: Server, label: './devices', active: true },
-              { icon: Bell, label: './alerts [3]' },
-              { icon: Settings, label: './config' },
-              { icon: Building2, label: './company' },
-            ].map((item) => (
-              <button
-                key={item.label}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-all ${
-                  item.active ? 'bg-green-900/20 text-green-400 border-l-2 border-green-400' : 'text-green-600 hover:text-green-400 hover:bg-green-900/10'
-                }`}
-              >
-                <item.icon className="w-4 h-4" />
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-
-          <div className="p-2 border-t border-green-900/30">
-            <Link to="/" className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:text-green-400">
-              <ArrowLeft className="w-4 h-4" />
-              <span>cd ..</span>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-gray-400 hover:text-amber-400 text-sm flex items-center gap-1">
+              <ArrowLeft className="w-4 h-4" /> Back
             </Link>
-            <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:text-green-400">
-              <LogOut className="w-4 h-4" />
-              <span>exit</span>
+            <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg text-sm font-medium flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Add Device
             </button>
           </div>
-        </aside>
+        </div>
+      </header>
 
-        {/* Main */}
-        <main className="flex-1 p-6">
-          <div className="mb-6">
-            <div className="flex items-center gap-2 text-green-600 text-xs mb-2">
-              <span>// INSTALLER PLATFORM v3.2.1</span>
-              <span className="animate-pulse">●</span>
-              <span>CONNECTED</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl text-green-400">&gt; DEVICE_REGISTRY_</h1>
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-700" />
-                  <input type="text" placeholder="grep -r 'device'" className="pl-9 pr-4 py-2 bg-[#0d0d0d] border border-green-900/50 rounded text-sm w-56 focus:outline-none focus:border-green-500 placeholder:text-green-800" />
-                </div>
-                <button className="px-4 py-2 bg-green-900/20 border border-green-500/50 text-green-400 text-sm hover:bg-green-900/40 flex items-center gap-2">
-                  <Plus className="w-4 h-4" />
-                  add_device()
-                </button>
-              </div>
-            </div>
+      <main className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold">Device Management</h1>
+            <p className="text-gray-400">Register and manage {devices.length} devices</p>
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mb-6">
-            {[
-              { label: 'TOTAL_DEVICES', value: '24' },
-              { label: 'ONLINE', value: '18' },
-              { label: 'OFFLINE', value: '03' },
-              { label: 'UNASSIGNED', value: '05' },
-            ].map((stat) => (
-              <div key={stat.label} className="p-4 bg-[#0d0d0d] border border-green-900/30 hover:border-green-500/50 transition-colors">
-                <p className="text-2xl text-green-400 mb-1">{stat.value}</p>
-                <p className="text-xs text-green-700">{stat.label}</p>
-              </div>
-            ))}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input type="text" placeholder="Search devices..." className="pl-10 pr-4 py-2.5 bg-zinc-800/50 border border-amber-500/20 rounded-xl text-sm w-64 focus:outline-none focus:border-amber-500" />
           </div>
+        </div>
 
-          {/* Terminal Output */}
-          <div className="bg-[#0d0d0d] border border-green-900/30 rounded overflow-hidden">
-            <div className="px-4 py-2 border-b border-green-900/30 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Code className="w-4 h-4 text-green-700" />
-                <span className="text-sm text-green-600">device_registry.log</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-red-500/50"></span>
-                <span className="w-3 h-3 rounded-full bg-yellow-500/50"></span>
-                <span className="w-3 h-3 rounded-full bg-green-500/50"></span>
-              </div>
+        {/* Stats */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          {[
+            { label: 'Total Devices', value: '24' },
+            { label: 'Online', value: '18' },
+            { label: 'Offline', value: '3' },
+            { label: 'Unassigned', value: '5' },
+          ].map((stat) => (
+            <div key={stat.label} className="p-4 rounded-xl bg-zinc-800/50 border border-amber-500/10">
+              <p className="text-2xl font-bold">{stat.value}</p>
+              <p className="text-sm text-gray-400">{stat.label}</p>
             </div>
+          ))}
+        </div>
 
-            <div className="p-4">
-              <div className="text-xs text-green-700 mb-4">
-                <span className="text-green-500">$</span> SELECT * FROM devices ORDER BY last_seen DESC
-              </div>
-
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-green-700 border-b border-green-900/30">
-                    <th className="text-left py-2 font-normal">UNIT_ID</th>
-                    <th className="text-left py-2 font-normal">IMEI</th>
-                    <th className="text-left py-2 font-normal">STATUS</th>
-                    <th className="text-left py-2 font-normal">NET</th>
-                    <th className="text-left py-2 font-normal">ASSIGNED_TO</th>
-                    <th className="text-left py-2 font-normal">LAST_SEEN</th>
-                    <th className="text-left py-2 font-normal">SAT</th>
-                    <th className="text-left py-2 font-normal">ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {devices.map((device) => (
-                    <tr key={device.id} className="border-b border-green-900/20 hover:bg-green-900/10">
-                      <td className="py-3 text-cyan-400">{device.name}</td>
-                      <td className="py-3">{device.imei}</td>
-                      <td className={`py-3 ${getStatusColor(device.status)}`}>[{device.status}]</td>
-                      <td className="py-3">
-                        <span className={device.network === 'DISC' ? 'text-red-400' : 'text-green-400'}>{device.network}</span>
-                      </td>
-                      <td className="py-3 text-cyan-400">{device.assigned || 'NULL'}</td>
-                      <td className="py-3 text-green-700">{device.lastSeen}</td>
-                      <td className="py-3">{device.satFix}</td>
-                      <td className="py-3">
-                        <div className="flex items-center gap-2">
-                          <button className="text-cyan-400 hover:text-cyan-300">./status</button>
-                          <button className="text-cyan-400 hover:text-cyan-300">./config</button>
-                          {!device.assigned && <button className="text-green-400 hover:text-green-300">./assign</button>}
-                          <button className="text-red-400 hover:text-red-300">./rm</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <div className="mt-4 text-xs text-green-700">
-                <span className="text-green-500">$</span> <span className="animate-pulse">█</span>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+        {/* Table */}
+        <div className="rounded-2xl bg-zinc-800/50 border border-amber-500/10 overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-amber-500/5">
+              <tr>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Device</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Model</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Status</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Network</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Assigned User</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Last Seen</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Sat</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {devices.map((device) => (
+                <tr key={device.id} className="border-t border-zinc-700/30 hover:bg-amber-500/5 transition-colors">
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+                        <Cpu className="w-5 h-5 text-amber-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{device.name}</p>
+                        <p className="text-xs text-gray-500">{device.imei}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-gray-400">{device.model}</td>
+                  <td className="px-4 py-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      device.status === 'online' ? 'bg-emerald-500/20 text-emerald-400' :
+                      device.status === 'sleeping' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-red-500/20 text-red-400'
+                    }`}>
+                      {device.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-1.5">
+                      {device.network === 'disconnected' ? <WifiOff className="w-4 h-4 text-red-400" /> : <Wifi className="w-4 h-4 text-emerald-400" />}
+                      <span className={device.network === 'disconnected' ? 'text-red-400' : 'text-gray-300'}>{device.network}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4">
+                    {device.assigned ? <span className="text-amber-400">{device.assigned}</span> : <span className="text-gray-500">Unassigned</span>}
+                  </td>
+                  <td className="px-4 py-4 text-gray-400 text-xs">{device.lastSeen}</td>
+                  <td className="px-4 py-4 text-amber-400">{device.satFix}</td>
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-1">
+                      <button className="p-1.5 hover:bg-amber-500/20 rounded"><BarChart3 className="w-4 h-4 text-gray-400" /></button>
+                      <button className="p-1.5 hover:bg-amber-500/20 rounded"><Cog className="w-4 h-4 text-gray-400" /></button>
+                      <button className="p-1.5 hover:bg-amber-500/20 rounded"><Mail className="w-4 h-4 text-gray-400" /></button>
+                      {device.assigned ? (
+                        <button className="p-1.5 hover:bg-amber-500/20 rounded"><RefreshCw className="w-4 h-4 text-gray-400" /></button>
+                      ) : (
+                        <button className="px-2 py-1 bg-emerald-600 text-white rounded text-xs"><UserPlus className="w-3 h-3" /></button>
+                      )}
+                      <button className="px-2 py-1 bg-red-600 text-white rounded text-xs">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </div>
   );
 };
