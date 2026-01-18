@@ -14,13 +14,7 @@ import Alerts from "./pages/Alerts";
 import History from "./pages/History";
 import Settings from "./pages/Settings";
 import Vehicles from "./pages/Vehicles";
-import Design1 from "./pages/designs/Design1";
-import Design4 from "./pages/designs/Design4";
 import Design5 from "./pages/designs/Design5";
-import Design6 from "./pages/designs/Design6";
-import Design7 from "./pages/designs/Design7";
-import Design10 from "./pages/designs/Design10";
-import Design19 from "./pages/designs/Design19";
 
 const queryClient = new QueryClient();
 
@@ -60,39 +54,9 @@ const App = () => (
                 <Vehicles />
               </ProtectedRoute>
             } />
-            <Route path="/design/1" element={
-              <ProtectedRoute>
-                <Design1 />
-              </ProtectedRoute>
-            } />
-            <Route path="/design/4" element={
-              <ProtectedRoute>
-                <Design4 />
-              </ProtectedRoute>
-            } />
             <Route path="/design/5" element={
               <ProtectedRoute>
                 <Design5 />
-              </ProtectedRoute>
-            } />
-            <Route path="/design/6" element={
-              <ProtectedRoute>
-                <Design6 />
-              </ProtectedRoute>
-            } />
-            <Route path="/design/7" element={
-              <ProtectedRoute>
-                <Design7 />
-              </ProtectedRoute>
-            } />
-            <Route path="/design/10" element={
-              <ProtectedRoute>
-                <Design10 />
-              </ProtectedRoute>
-            } />
-            <Route path="/design/19" element={
-              <ProtectedRoute>
-                <Design19 />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />
