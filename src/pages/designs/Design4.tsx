@@ -1,251 +1,191 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Home, Car, MapPin, Bell, Settings, Plus, Search, 
-  Battery, Navigation, Grid, List, Activity, 
-  Eye, ArrowLeft, Sun, Filter, SortAsc
+  Home, Wrench, Cpu, Bell, Settings, Building2, HelpCircle, LogOut,
+  Plus, Search, CheckCircle2, XCircle, Moon, Wifi, WifiOff,
+  ArrowLeft, RefreshCw, UserPlus, Mail, BarChart3, Cog, Sun, Grid, List
 } from 'lucide-react';
 
-// Sunset Blaze - Warm orange/red theme with top navigation
+// Sunset Blaze - Warm orange installer theme with top nav
 const Design4 = () => {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   const devices = [
-    { id: 1, name: 'Tesla Model 3', plate: 'ABC-1234', status: 'moving', speed: 65, battery: 87, signal: 4, location: 'Highway 101, San Francisco', temp: 24 },
-    { id: 2, name: 'Ford Transit', plate: 'XYZ-5678', status: 'idle', speed: 0, battery: 54, signal: 3, location: 'Warehouse District, Oakland', temp: 28 },
-    { id: 3, name: 'BMW X5', plate: 'DEF-9012', status: 'parked', speed: 0, battery: 92, signal: 5, location: 'Downtown Parking, San Jose', temp: 22 },
-    { id: 4, name: 'Mercedes Sprinter', plate: 'GHI-3456', status: 'offline', speed: 0, battery: 12, signal: 0, location: 'Last seen: Fremont', temp: 0 },
-    { id: 5, name: 'Rivian R1T', plate: 'JKL-7890', status: 'moving', speed: 45, battery: 78, signal: 4, location: 'Mountain View', temp: 26 },
-    { id: 6, name: 'Audi e-tron', plate: 'MNO-2345', status: 'parked', speed: 0, battery: 95, signal: 5, location: 'Palo Alto', temp: 21 },
+    { id: 1, name: 'Nick FMC880', imei: '861076080724964', model: 'FMC880', status: 'online', network: 'sim', assigned: 'kilaris56@gmail.com', lastSeen: '18/01/2026, 14:49:18', satFix: 55 },
+    { id: 2, name: '2021 Mitsubishi Triton', imei: '865124071241444', model: 'FMC003', status: 'sleeping', network: 'sleeping', assigned: 'kilaris10@hotmail.com', lastSeen: '11/01/2026, 19:26:01', satFix: 0 },
+    { id: 3, name: 'Site Security Tower 1', imei: '861076080733585', model: 'FMC650', status: 'online', network: 'sim', assigned: 'kilaris10@hotmail.com', lastSeen: '18/01/2026, 14:50:18', satFix: 55 },
+    { id: 4, name: 'Caravan', imei: '865124071449005', model: 'FMC003', status: 'offline', network: 'disconnected', assigned: 'kilaris10@hotmail.com', lastSeen: '14/12/2025, 23:59:09', satFix: 17 },
+    { id: 5, name: 'FMC650 TEST', imei: '865124070737665', model: 'FMC650', status: 'offline', network: 'disconnected', assigned: null, lastSeen: '26/11/2025, 01:23:44', satFix: 31 },
   ];
-
-  const getStatusStyle = (status: string) => {
-    switch (status) {
-      case 'moving': return 'bg-gradient-to-r from-orange-500 to-amber-500 text-white';
-      case 'idle': return 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900';
-      case 'parked': return 'bg-gradient-to-r from-rose-400 to-rose-500 text-white';
-      case 'offline': return 'bg-gradient-to-r from-slate-400 to-slate-500 text-white';
-      default: return 'bg-slate-500 text-white';
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Top Navigation */}
-      <header className="border-b border-orange-500/20 bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50">
+      <header className="bg-slate-900/80 backdrop-blur-lg border-b border-orange-500/20 sticky top-0 z-50">
         <div className="flex items-center justify-between px-6 h-16">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
                 <Sun className="w-5 h-5" />
               </div>
-              <span className="font-bold text-lg">TracePortal</span>
+              <div>
+                <span className="font-bold">TRACE</span>
+                <span className="text-orange-400 text-xs ml-2">Installer</span>
+              </div>
             </div>
             
             <nav className="flex items-center gap-1">
               {[
-                { icon: Home, label: 'Dashboard', active: true },
-                { icon: Car, label: 'Fleet' },
-                { icon: MapPin, label: 'Map' },
+                { icon: Home, label: 'Home' },
+                { icon: Wrench, label: 'Setup' },
+                { icon: Cpu, label: 'Devices', active: true },
                 { icon: Bell, label: 'Alerts', badge: 3 },
                 { icon: Settings, label: 'Settings' },
               ].map((item) => (
                 <button
                   key={item.label}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                    item.active 
-                      ? 'bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-400' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
+                    item.active ? 'bg-orange-500/20 text-orange-400' : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <item.icon className="w-4 h-4" />
-                  <span className="text-sm font-medium">{item.label}</span>
-                  {item.badge && (
-                    <span className="bg-red-500 text-xs px-1.5 py-0.5 rounded-full">{item.badge}</span>
-                  )}
+                  <span>{item.label}</span>
+                  {item.badge && <span className="bg-red-500 text-xs px-1.5 py-0.5 rounded-full">{item.badge}</span>}
                 </button>
               ))}
             </nav>
           </div>
 
           <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-orange-400 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm">Back</span>
+            <Link to="/" className="text-gray-400 hover:text-orange-400 text-sm flex items-center gap-1">
+              <ArrowLeft className="w-4 h-4" /> Back
             </Link>
-            <button className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl hover:opacity-90 transition-opacity font-medium shadow-lg shadow-orange-500/30">
+            <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg text-sm font-medium flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              Add Vehicle
+              Add Device
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="p-8">
-        {/* Stats Row */}
-        <div className="flex items-center gap-6 mb-8">
+      <main className="p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold">Device Management</h1>
+            <p className="text-gray-400">Register and manage {devices.length} devices</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <input type="text" placeholder="Search devices..." className="pl-10 pr-4 py-2.5 bg-slate-800/50 border border-orange-500/20 rounded-xl text-sm w-64 focus:outline-none focus:border-orange-500" />
+            </div>
+            <div className="flex items-center gap-1 p-1 bg-slate-800/50 rounded-lg border border-orange-500/20">
+              <button onClick={() => setViewMode('list')} className={`p-2 rounded ${viewMode === 'list' ? 'bg-orange-500/20 text-orange-400' : 'text-gray-400'}`}>
+                <List className="w-4 h-4" />
+              </button>
+              <button onClick={() => setViewMode('grid')} className={`p-2 rounded ${viewMode === 'grid' ? 'bg-orange-500/20 text-orange-400' : 'text-gray-400'}`}>
+                <Grid className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total Fleet', value: '24', icon: Car },
-            { label: 'Active', value: '18', icon: Activity },
-            { label: 'Distance', value: '2.4k km', icon: Navigation },
-            { label: 'Alerts', value: '3', icon: Bell },
+            { label: 'Total Devices', value: '24', color: 'orange' },
+            { label: 'Online', value: '18', color: 'green' },
+            { label: 'Offline', value: '3', color: 'red' },
+            { label: 'Unassigned', value: '5', color: 'amber' },
           ].map((stat) => (
-            <div key={stat.label} className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-slate-800/50 border border-orange-500/10 flex-1">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
-                <stat.icon className="w-6 h-6 text-orange-400" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{stat.value}</p>
-                <p className="text-sm text-gray-400">{stat.label}</p>
-              </div>
+            <div key={stat.label} className="p-4 rounded-xl bg-slate-800/50 border border-orange-500/10">
+              <p className="text-2xl font-bold">{stat.value}</p>
+              <p className="text-sm text-gray-400">{stat.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Toolbar */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-              <input 
-                type="text" 
-                placeholder="Search vehicles..." 
-                className="pl-10 pr-4 py-2.5 bg-slate-800/50 border border-orange-500/20 rounded-xl text-sm focus:outline-none focus:border-orange-500/50 w-64"
-              />
+        {/* Table */}
+        <div className="rounded-2xl bg-slate-800/50 border border-orange-500/10 overflow-hidden">
+          <div className="p-4 border-b border-orange-500/10 flex items-center justify-between">
+            <div className="flex gap-4">
+              <button className="px-4 py-2 bg-orange-500/20 text-orange-400 rounded-lg text-sm font-medium">Device Management</button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white rounded-lg text-sm">System Overview</button>
             </div>
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/50 border border-orange-500/20 rounded-xl text-gray-400 hover:text-white transition-colors">
-              <Filter className="w-4 h-4" />
-              <span className="text-sm">Filter</span>
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/50 border border-orange-500/20 rounded-xl text-gray-400 hover:text-white transition-colors">
-              <SortAsc className="w-4 h-4" />
-              <span className="text-sm">Sort</span>
-            </button>
           </div>
 
-          <div className="flex items-center gap-2 p-1 bg-slate-800/50 rounded-lg border border-orange-500/20">
-            <button 
-              onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-orange-500/20 text-orange-400' : 'text-gray-400 hover:text-white'}`}
-            >
-              <Grid className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={() => setViewMode('list')}
-              className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-orange-500/20 text-orange-400' : 'text-gray-400 hover:text-white'}`}
-            >
-              <List className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Vehicles */}
-        {viewMode === 'grid' ? (
-          <div className="grid grid-cols-3 gap-6">
-            {devices.map((device) => (
-              <div key={device.id} className="group rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-orange-500/10 overflow-hidden hover:border-orange-500/30 transition-all">
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
-                      <Car className="w-8 h-8 text-orange-400" />
+          <table className="w-full text-sm">
+            <thead className="bg-orange-500/5">
+              <tr>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Device</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Model</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Status</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Network</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Assigned User</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Last Seen</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Sat</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-400">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {devices.map((device) => (
+                <tr key={device.id} className="border-t border-slate-700/30 hover:bg-orange-500/5 transition-colors">
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
+                        <Cpu className="w-5 h-5 text-orange-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium">{device.name}</p>
+                        <p className="text-xs text-gray-500">{device.imei}</p>
+                      </div>
                     </div>
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${getStatusStyle(device.status)}`}>
+                  </td>
+                  <td className="px-4 py-4 text-gray-400">{device.model}</td>
+                  <td className="px-4 py-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      device.status === 'online' ? 'bg-green-500/20 text-green-400' :
+                      device.status === 'sleeping' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-red-500/20 text-red-400'
+                    }`}>
                       {device.status}
                     </span>
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mb-1">{device.name}</h3>
-                  <p className="text-gray-400 text-sm mb-4">{device.plate}</p>
-                  
-                  <p className="text-sm text-gray-500 truncate mb-4">{device.location}</p>
-
-                  <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-700/50">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 text-orange-400 mb-1">
-                        <Navigation className="w-4 h-4" />
-                      </div>
-                      <p className="font-bold">{device.speed}</p>
-                      <p className="text-xs text-gray-500">km/h</p>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-1.5">
+                      {device.network === 'disconnected' ? <WifiOff className="w-4 h-4 text-red-400" /> : <Wifi className="w-4 h-4 text-green-400" />}
+                      <span className={device.network === 'disconnected' ? 'text-red-400' : 'text-gray-300'}>{device.network}</span>
                     </div>
-                    <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 text-orange-400 mb-1">
-                        <Battery className="w-4 h-4" />
+                  </td>
+                  <td className="px-4 py-4">
+                    {device.assigned ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-orange-400">{device.assigned}</span>
+                        <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Assigned</span>
                       </div>
-                      <p className="font-bold">{device.battery}%</p>
-                      <p className="text-xs text-gray-500">Battery</p>
+                    ) : <span className="text-gray-500">Unassigned</span>}
+                  </td>
+                  <td className="px-4 py-4 text-gray-400 text-xs">{device.lastSeen}</td>
+                  <td className="px-4 py-4 text-orange-400">{device.satFix}</td>
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-1">
+                      <button className="p-1.5 hover:bg-orange-500/20 rounded"><BarChart3 className="w-4 h-4 text-gray-400" /></button>
+                      <button className="p-1.5 hover:bg-orange-500/20 rounded"><Cog className="w-4 h-4 text-gray-400" /></button>
+                      <button className="p-1.5 hover:bg-orange-500/20 rounded"><Mail className="w-4 h-4 text-gray-400" /></button>
+                      {device.assigned ? (
+                        <button className="p-1.5 hover:bg-orange-500/20 rounded"><RefreshCw className="w-4 h-4 text-gray-400" /></button>
+                      ) : (
+                        <button className="px-2 py-1 bg-green-600 text-white rounded text-xs flex items-center gap-1"><UserPlus className="w-3 h-3" /></button>
+                      )}
+                      <button className="px-2 py-1 bg-red-600 text-white rounded text-xs">Delete</button>
                     </div>
-                    <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 text-orange-400 mb-1">
-                        <Sun className="w-4 h-4" />
-                      </div>
-                      <p className="font-bold">{device.temp}°</p>
-                      <p className="text-xs text-gray-500">Temp</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="px-6 py-3 bg-orange-500/5 border-t border-orange-500/10 flex items-center justify-between">
-                  <button className="text-sm text-orange-400 hover:text-orange-300 font-medium flex items-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    View Details
-                  </button>
-                  <button className="text-sm text-gray-400 hover:text-white font-medium">
-                    Track
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-2xl bg-slate-800/50 border border-orange-500/10 overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-orange-500/5">
-                <tr>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Vehicle</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Status</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Speed</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Battery</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Location</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-gray-400">Actions</th>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {devices.map((device) => (
-                  <tr key={device.id} className="border-t border-slate-700/30 hover:bg-orange-500/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
-                          <Car className="w-5 h-5 text-orange-400" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{device.name}</p>
-                          <p className="text-xs text-gray-500">{device.plate}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(device.status)}`}>
-                        {device.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">{device.speed} km/h</td>
-                    <td className="px-6 py-4">{device.battery}%</td>
-                    <td className="px-6 py-4 text-gray-400 text-sm max-w-xs truncate">{device.location}</td>
-                    <td className="px-6 py-4">
-                      <button className="text-orange-400 hover:text-orange-300">
-                        <Eye className="w-5 h-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
   );

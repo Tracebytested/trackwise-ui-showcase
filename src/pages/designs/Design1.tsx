@@ -1,195 +1,213 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Home, Car, MapPin, Bell, Settings, LogOut, Plus, Search, 
-  Battery, Signal, Navigation, Clock, ChevronRight, Menu,
-  Activity, Fuel, Thermometer, Eye, MoreVertical, ArrowLeft
+  Home, Wrench, Cpu, Bell, Settings, Building2, HelpCircle, LogOut,
+  Plus, Search, MoreVertical, CheckCircle2, XCircle, Moon, Wifi, WifiOff,
+  ArrowLeft, RefreshCw, UserPlus, Mail, Trash2, BarChart3, Cog, MapPin
 } from 'lucide-react';
 
-// Midnight Aurora - Dark theme with purple/cyan gradients
+// Midnight Aurora - Dark purple/cyan installer theme
 const Design1 = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState<'devices' | 'overview'>('devices');
 
   const devices = [
-    { id: 1, name: 'Tesla Model 3', plate: 'ABC-1234', status: 'moving', speed: 65, battery: 87, signal: 4, location: 'Highway 101, San Francisco' },
-    { id: 2, name: 'Ford Transit', plate: 'XYZ-5678', status: 'idle', speed: 0, battery: 54, signal: 3, location: 'Warehouse District, Oakland' },
-    { id: 3, name: 'BMW X5', plate: 'DEF-9012', status: 'parked', speed: 0, battery: 92, signal: 5, location: 'Downtown Parking, San Jose' },
-    { id: 4, name: 'Mercedes Sprinter', plate: 'GHI-3456', status: 'offline', speed: 0, battery: 12, signal: 0, location: 'Last seen: Fremont' },
+    { id: 1, name: 'Nick FMC880', imei: '861076080724964', ajaxId: 'N/A', status: 'online', statusText: 'AJAX Not Configured', network: 'sim', assigned: 'kilaris56@gmail.com', lastSeen: '18/01/2026, 14:49:18', satFix: 55 },
+    { id: 2, name: '2021 Mitsubishi Triton', imei: '865124071241444', ajaxId: '002F41A', status: 'sleeping', statusText: 'Sleep Mode Active', network: 'sleeping', assigned: 'kilaris10@hotmail.com', lastSeen: '11/01/2026, 19:26:01', satFix: 0 },
+    { id: 3, name: 'Site Security Tower 1', imei: '861076080733585', ajaxId: 'N/A', status: 'online', statusText: 'AJAX Not Configured', network: 'sim', assigned: 'kilaris10@hotmail.com', lastSeen: '18/01/2026, 14:50:18', satFix: 55 },
+    { id: 4, name: 'Caravan', imei: '865124071449005', ajaxId: '002F41A', status: 'offline', statusText: '', network: 'disconnected', assigned: 'kilaris10@hotmail.com', lastSeen: '14/12/2025, 23:59:09', satFix: 17 },
+    { id: 5, name: 'Boat', imei: '865124070993946', ajaxId: '002F41A', status: 'offline', statusText: '', network: 'sim', assigned: 'kilaris10@hotmail.com', lastSeen: '18/01/2026, 14:47:20', satFix: 14 },
+    { id: 6, name: 'FMC650 TEST', imei: '865124070737665', ajaxId: '002F41A', status: 'offline', statusText: '', network: 'disconnected', assigned: null, lastSeen: '26/11/2025, 01:23:44', satFix: 31 },
   ];
 
-  const stats = [
-    { label: 'Total Vehicles', value: '24', icon: Car, color: 'from-purple-500 to-cyan-500' },
-    { label: 'Active Now', value: '18', icon: Activity, color: 'from-green-500 to-emerald-500' },
-    { label: 'Alerts Today', value: '3', icon: Bell, color: 'from-orange-500 to-red-500' },
-    { label: 'Total Distance', value: '1,247 km', icon: Navigation, color: 'from-blue-500 to-purple-500' },
-  ];
-
-  const getStatusColor = (status: string) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'moving': return 'bg-green-500';
-      case 'idle': return 'bg-yellow-500';
-      case 'parked': return 'bg-blue-500';
-      case 'offline': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'online': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'sleeping': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+      case 'offline': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      default: return 'bg-gray-500/20 text-gray-400';
     }
+  };
+
+  const getNetworkIcon = (network: string) => {
+    if (network === 'disconnected') return <WifiOff className="w-4 h-4 text-red-400" />;
+    if (network === 'sleeping') return <Moon className="w-4 h-4 text-yellow-400" />;
+    return <Wifi className="w-4 h-4 text-green-400" />;
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a1a] text-white flex">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-[#12122a] border-r border-purple-900/30 flex flex-col transition-all duration-300`}>
+      <aside className="w-56 bg-gradient-to-b from-[#12122a] to-[#0a0a1a] border-r border-purple-900/30 flex flex-col">
         <div className="p-4 border-b border-purple-900/30">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-              <MapPin className="w-5 h-5" />
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center font-bold text-sm">
+              TR
             </div>
-            {sidebarOpen && <span className="font-bold text-lg">TracePortal</span>}
+            <div>
+              <span className="font-bold text-sm">TRACE</span>
+              <p className="text-[10px] text-purple-400">Installer Dashboard</p>
+            </div>
           </div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-3 space-y-1">
           {[
-            { icon: Home, label: 'Dashboard', active: true },
-            { icon: Car, label: 'Vehicles' },
-            { icon: MapPin, label: 'Live Map' },
-            { icon: Bell, label: 'Alerts', badge: 3 },
-            { icon: Settings, label: 'Settings' },
+            { icon: Home, label: 'Home' },
+            { icon: Wrench, label: 'Setup' },
+            { icon: Cpu, label: 'Devices', active: true },
+            { icon: Bell, label: 'Alerts' },
+            { icon: Settings, label: 'Account Settings' },
+            { icon: Building2, label: 'Company Settings' },
+            { icon: HelpCircle, label: 'Help' },
           ].map((item) => (
             <button
               key={item.label}
-              className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${
                 item.active 
-                  ? 'bg-gradient-to-r from-purple-600/20 to-cyan-600/20 border border-purple-500/30 text-purple-300' 
-                  : 'hover:bg-purple-900/20 text-gray-400 hover:text-white'
+                  ? 'bg-gradient-to-r from-purple-600/20 to-cyan-600/20 text-purple-300 border-l-2 border-purple-500' 
+                  : 'text-gray-400 hover:bg-purple-900/20 hover:text-white'
               }`}
             >
-              <item.icon className="w-5 h-5" />
-              {sidebarOpen && (
-                <>
-                  <span>{item.label}</span>
-                  {item.badge && (
-                    <span className="ml-auto bg-red-500 text-xs px-2 py-0.5 rounded-full">{item.badge}</span>
-                  )}
-                </>
-              )}
+              <item.icon className="w-4 h-4" />
+              <span>{item.label}</span>
             </button>
           ))}
         </nav>
 
-        <div className="p-4 border-t border-purple-900/30">
-          <Link
-            to="/"
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:bg-purple-900/20 hover:text-white transition-all"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            {sidebarOpen && <span>Back to Designs</span>}
+        <div className="p-3 border-t border-purple-900/30 space-y-1">
+          <Link to="/" className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-purple-900/20 hover:text-white">
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Designs</span>
           </Link>
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-purple-900/20 hover:text-white">
+            <LogOut className="w-4 h-4" />
+            <span>Logout</span>
+          </button>
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="h-16 border-b border-purple-900/30 flex items-center justify-between px-6 bg-[#12122a]/50 backdrop-blur-sm">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-purple-900/30 rounded-lg">
-              <Menu className="w-5 h-5" />
-            </button>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-              <input 
-                type="text" 
-                placeholder="Search vehicles..." 
-                className="pl-10 pr-4 py-2 bg-[#1a1a35] border border-purple-900/30 rounded-xl text-sm focus:outline-none focus:border-purple-500 w-64"
-              />
-            </div>
+        <header className="h-14 border-b border-purple-900/30 flex items-center justify-between px-6 bg-[#12122a]/50">
+          <div>
+            <h1 className="text-lg font-bold">Device Management</h1>
+            <p className="text-xs text-gray-400">Manage your devices and monitor system performance ({devices.length} devices)</p>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="p-2 hover:bg-purple-900/30 rounded-lg relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
-            </button>
-            <button className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl hover:opacity-90 transition-opacity">
-              <Plus className="w-4 h-4" />
-              <span className="text-sm font-medium">Add Vehicle</span>
-            </button>
-          </div>
+          <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium flex items-center gap-2">
+            <HelpCircle className="w-4 h-4" />
+            Get Support
+          </button>
         </header>
+
+        {/* Tabs */}
+        <div className="border-b border-purple-900/30 px-6">
+          <div className="flex gap-8">
+            <button 
+              onClick={() => setActiveTab('devices')}
+              className={`py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'devices' ? 'border-purple-500 text-purple-400' : 'border-transparent text-gray-400 hover:text-white'}`}
+            >
+              Device Management
+            </button>
+            <button 
+              onClick={() => setActiveTab('overview')}
+              className={`py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'overview' ? 'border-purple-500 text-purple-400' : 'border-transparent text-gray-400 hover:text-white'}`}
+            >
+              System Overview
+            </button>
+          </div>
+        </div>
 
         {/* Content */}
         <div className="flex-1 p-6 overflow-auto">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-4 gap-4 mb-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="p-4 rounded-2xl bg-[#12122a] border border-purple-900/20 hover:border-purple-500/30 transition-all">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-5 h-5" />
-                  </div>
-                  <span className="text-gray-400 text-sm">{stat.label}</span>
-                </div>
-                <p className="text-2xl font-bold">{stat.value}</p>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <RefreshCw className="w-4 h-4 text-purple-400" />
+              Enhanced Device Management
+            </h2>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <input type="text" placeholder="Search devices..." className="pl-9 pr-4 py-2 bg-[#1a1a35] border border-purple-900/30 rounded-lg text-sm w-64 focus:outline-none focus:border-purple-500" />
               </div>
-            ))}
+              <button className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-sm font-medium flex items-center gap-2">
+                <Plus className="w-4 h-4" />
+                Add Device
+              </button>
+            </div>
           </div>
 
-          {/* Devices Table */}
-          <div className="rounded-2xl bg-[#12122a] border border-purple-900/20 overflow-hidden">
-            <div className="p-4 border-b border-purple-900/20 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Fleet Overview</h2>
-              <button className="text-purple-400 text-sm hover:text-purple-300">View All</button>
-            </div>
-            <table className="w-full">
-              <thead className="bg-purple-900/10">
+          {/* Table */}
+          <div className="rounded-xl border border-purple-900/20 overflow-hidden bg-[#12122a]/50">
+            <table className="w-full text-sm">
+              <thead className="bg-purple-900/20">
                 <tr>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Vehicle</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Status</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Speed</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Battery</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Signal</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Location</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-gray-400"></th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Device Details</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">AJAX Hub ID</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Real-time Status</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Network</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Assigned User</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Last Seen</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Sat Fix</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-400">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {devices.map((device) => (
-                  <tr key={device.id} className="border-t border-purple-900/10 hover:bg-purple-900/10 transition-colors">
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600/30 to-cyan-600/30 flex items-center justify-center">
-                          <Car className="w-5 h-5 text-purple-400" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{device.name}</p>
-                          <p className="text-xs text-gray-500">{device.plate}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs ${getStatusColor(device.status)} bg-opacity-20`}>
-                        <span className={`w-2 h-2 rounded-full ${getStatusColor(device.status)}`}></span>
-                        {device.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 text-gray-300">{device.speed} km/h</td>
+                  <tr key={device.id} className="border-t border-purple-900/10 hover:bg-purple-900/10">
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <Battery className="w-4 h-4 text-gray-500" />
-                        <span className={device.battery < 20 ? 'text-red-400' : 'text-gray-300'}>{device.battery}%</span>
+                        <div>
+                          <p className="font-medium">{device.name}</p>
+                          <p className="text-xs text-gray-500">{device.imei}</p>
+                        </div>
+                        <button className="text-gray-500 hover:text-purple-400"><Wrench className="w-3 h-3" /></button>
                       </div>
+                    </td>
+                    <td className="px-4 py-4 text-gray-400">{device.ajaxId}</td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 rounded text-xs border ${getStatusBadge(device.status)}`}>
+                          {device.status === 'online' ? 'Online' : device.status === 'sleeping' ? 'Sleeping' : 'Offline'}
+                        </span>
+                        {device.status === 'online' && <RefreshCw className="w-3 h-3 text-green-400" />}
+                      </div>
+                      {device.statusText && <p className="text-xs text-purple-400 mt-1">{device.statusText}</p>}
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        {getNetworkIcon(device.network)}
+                        <span className={device.network === 'disconnected' ? 'text-red-400' : 'text-gray-300'}>
+                          {device.network === 'disconnected' ? 'disconnected' : device.network}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      {device.assigned ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-cyan-400">{device.assigned}</span>
+                          <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Assigned</span>
+                        </div>
+                      ) : (
+                        <span className="text-gray-500">Unassigned</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-4 text-gray-400 text-xs">{device.lastSeen}</td>
+                    <td className="px-4 py-4">
+                      <span className={device.satFix === 0 ? 'text-red-400' : 'text-cyan-400'}>{device.satFix}</span>
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-1">
-                        {[1, 2, 3, 4, 5].map((bar) => (
-                          <div key={bar} className={`w-1 h-3 rounded-full ${bar <= device.signal ? 'bg-green-500' : 'bg-gray-700'}`}></div>
-                        ))}
+                        <button className="p-1.5 hover:bg-purple-900/30 rounded" title="Status"><BarChart3 className="w-4 h-4 text-gray-400" /></button>
+                        <button className="p-1.5 hover:bg-purple-900/30 rounded" title="Control"><Cog className="w-4 h-4 text-gray-400" /></button>
+                        <button className="p-1.5 hover:bg-purple-900/30 rounded" title="Request Access"><Mail className="w-4 h-4 text-gray-400" /></button>
+                        {device.assigned ? (
+                          <button className="p-1.5 hover:bg-purple-900/30 rounded" title="Reassign"><RefreshCw className="w-4 h-4 text-gray-400" /></button>
+                        ) : (
+                          <button className="px-2 py-1 bg-green-600 hover:bg-green-700 rounded text-xs flex items-center gap-1"><UserPlus className="w-3 h-3" /> Assign</button>
+                        )}
+                        <button className="px-2 py-1 bg-red-600 hover:bg-red-700 rounded text-xs">Delete</button>
                       </div>
-                    </td>
-                    <td className="px-4 py-4 text-gray-400 text-sm">{device.location}</td>
-                    <td className="px-4 py-4">
-                      <button className="p-2 hover:bg-purple-900/30 rounded-lg">
-                        <Eye className="w-4 h-4 text-gray-500" />
-                      </button>
                     </td>
                   </tr>
                 ))}
